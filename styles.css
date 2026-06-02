@@ -1,0 +1,283 @@
+/* ============================================================
+   Yael's Letters — Hero Proof
+   Brand world: cream paper · green ink · gold seal · lamplight
+   ============================================================ */
+
+:root {
+  /* Color — three roles, never blurred */
+  --paper:      #f1e9d2;   /* aged cream — the stock everything prints on */
+  --paper-warm: #ece1c4;   /* a touch deeper, for grain + edges */
+  --ink:        #2f4538;   /* deep forest green — all type, lines, borders */
+  --ink-deep:   #1b291f;   /* near-black green — headings + shadow */
+  --ink-soft:   #5d6f60;   /* faded ink — captions, secondary */
+  --seal:       #b3812f;   /* muted gold — the action, and nothing else */
+  --seal-deep:  #8a6220;   /* gold in shadow */
+  --bloom:      #9c5a59;   /* faded wildflower rose — rare ornament only */
+
+  /* Type */
+  --font-display: "Cormorant Garamond", Georgia, serif;  /* engraved titles */
+  --font-read:    "EB Garamond", Georgia, serif;          /* the reading voice */
+  --font-script:  "Pinyon Script", "Cormorant Garamond", serif; /* rare signature */
+
+  /* Spatial */
+  --measure: 40rem;        /* narrow, book-width column */
+  --rhythm: clamp(3rem, 9vh, 6rem);
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-read);
+  color: var(--ink);
+  background-color: var(--paper);
+  /* Lamplight: one warm pool of light in the center, dusk at the edges */
+  background-image:
+    radial-gradient(120% 90% at 50% 32%,
+      rgba(255, 250, 235, 0.55) 0%,
+      rgba(241, 233, 210, 0) 42%,
+      rgba(27, 41, 31, 0.10) 100%);
+  background-attachment: fixed;
+  line-height: 1.62;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "onum" 1, "liga" 1;  /* old-style numerals */
+  overflow-x: hidden;
+}
+
+/* Faint paper grain laid over the whole page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+.page { position: relative; z-index: 2; }
+
+/* ---------- Top nav: a quiet line, not a menu bar ---------- */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 1.6rem clamp(1.25rem, 5vw, 3rem) 0;
+  flex-wrap: wrap;
+}
+.nav__mark {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-deep);
+}
+.nav__links {
+  display: flex;
+  gap: clamp(1rem, 3vw, 2.1rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav__links a {
+  font-family: var(--font-read);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.66rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: clamp(2rem, 7vh, 4.5rem) clamp(1.25rem, 5vw, 2rem) var(--rhythm);
+  text-align: center;
+}
+
+.kicker {
+  font-family: var(--font-read);
+  text-transform: uppercase;
+  letter-spacing: 0.42em;
+  font-size: 0.7rem;
+  color: var(--ink-soft);
+  margin: 0 0 clamp(1.4rem, 4vh, 2.4rem);
+  padding-left: 0.42em; /* optical: account for tracking */
+}
+
+/* The bordered plate — a vintage book frontispiece */
+.plate {
+  position: relative;
+  margin: 0 auto clamp(1.6rem, 4vh, 2.6rem);
+  padding: 0.55rem;
+  width: min(20rem, 72vw);
+  border: 1px solid var(--ink);
+}
+.plate::after {        /* the classic inner rule */
+  content: "";
+  position: absolute;
+  inset: 0.32rem;
+  border: 1px solid var(--ink);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.plate svg { display: block; width: 100%; height: auto; }
+.plate__caption {
+  margin: 0.5rem 0 0;
+  font-family: var(--font-read);
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+/* Wordmark */
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--ink-deep);
+  font-size: clamp(3rem, 12vw, 5.6rem);
+  line-height: 0.96;
+  letter-spacing: 0.005em;
+  margin: 0 0 0.4rem;
+}
+.wordmark .word { display: inline-block; }
+.wordmark em {
+  font-style: italic;
+  font-weight: 500;
+}
+
+.subhead {
+  font-family: var(--font-read);
+  font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+  font-style: italic;
+  color: var(--ink);
+  max-width: 30rem;
+  margin: 0.4rem auto 0;
+}
+
+.signature {
+  font-family: var(--font-script);
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  color: var(--ink);
+  line-height: 1;
+  margin: 1.1rem 0 0;
+}
+
+/* Actions */
+.actions {
+  margin-top: clamp(1.8rem, 5vh, 2.8rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.15rem;
+}
+
+/* The one gold thing on the page: the wax-seal button */
+.seal-btn {
+  --press: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-read);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  color: #fbf4df;
+  background:
+    radial-gradient(120% 120% at 30% 25%, var(--seal) 0%, var(--seal-deep) 100%);
+  border: none;
+  border-radius: 2px;
+  padding: 0.95rem 1.7rem 0.9rem;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 244, 214, 0.35),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.28),
+    0 6px 14px rgba(27, 41, 31, 0.18);
+  transition: transform 0.5s cubic-bezier(.2,.7,.2,1), box-shadow 0.5s ease;
+  text-decoration: none;
+}
+.seal-btn:hover {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 244, 214, 0.3),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.3),
+    0 3px 8px rgba(27, 41, 31, 0.2);
+}
+.seal-btn svg { width: 1.15rem; height: 1.15rem; }
+
+/* Secondary: pen-stroke underline that wipes in on hover */
+.penlink {
+  font-family: var(--font-read);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--ink);
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 3px;
+}
+.penlink::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 6px;
+  background: no-repeat left center;
+  background-size: 0% 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='6' viewBox='0 0 120 6'%3E%3Cpath d='M1 3.4 C 22 1.2, 40 4.6, 60 3 S 100 1.4, 119 3.2' fill='none' stroke='%232f4538' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  transition: background-size 0.55s cubic-bezier(.2,.7,.2,1);
+}
+.penlink:hover::after { background-size: 100% 100%; }
+
+/* ---------- Sign-off footer ---------- */
+.signoff {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--rhythm) clamp(1.25rem, 5vw, 2rem) 3rem;
+  text-align: center;
+  border-top: 1px solid rgba(47, 69, 56, 0.22);
+}
+.signoff__line {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--ink-deep);
+  margin: 0 0 0.4rem;
+}
+.signoff__meta {
+  font-family: var(--font-read);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.64rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* ============================================================
+   Motion — slow, like ink developing on a page
+   ============================================================ */
+@keyframes inkIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  animation: inkIn 1.5s cubic-bezier(.2,.6,.2,1) forwards;
+  animation-delay: var(--d, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { animation: none; opacity: 1; transform: none; }
+  body { background-attachment: scroll; }
+  .seal-btn, .penlink::after { transition: none; }
+}
+
+@media (max-width: 480px) {
+  .nav { justify-content: center; }
+}

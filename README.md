@@ -1,0 +1,62 @@
+# Yael's Letters
+
+A quiet home for the writing — gathered off Facebook into one place Yael owns.
+Faith-and-farm letters, books, support, and a newsletter.
+
+**Status:** Hero proof (visual direction). The blog, bookstore, donations, and
+newsletter are scoped but not yet built.
+
+---
+
+## The brief (locked)
+
+| | |
+|---|---|
+| **Feeling** | Like a letter read by lamplight — the world goes quiet and someone is speaking only to you. |
+| **Audience** | The return reader who already believes in her and wants a quiet place for the next letter. **Not for** the stranger who needs convincing. |
+| **Hero object** | The letter-writing goat — vintage pen-and-ink (O. Herford reference). |
+| **Job** | **Gather** — bring her flock into one owned home. |
+| **Three-second memory** | A vintage goat writing a letter; it felt like opening a letter, not a website. |
+
+### Style logics
+- **Color** — *cream paper, green ink, gold seal.* Gold appears only on the action.
+- **Type** — engraved display serif (Cormorant Garamond) for titles · book serif
+  (EB Garamond) for reading · tiny tracked caps for the machinery · script only as a
+  rare signature. No sans-serif.
+- **Spatial** — one narrow centered column · generous paper margins · tall rhythm ·
+  the goat centered in air · edges only for nav and the sign-off footer.
+
+### Sections (cut survivors)
+Hero · The Letters (blog) · Books · Support · Subscribe · short About ·
+*moderated* Comments · sign-off footer.
+
+### Planned integrations
+- **Blog / CMS:** Decap (free, Git-based) — Yael self-publishes.
+- **Comments:** hosted + moderated (approval queue), toggle per-post.
+- **Books:** embedded digital storefront (Gumroad/Payhip) — Stripe payment +
+  automatic ebook delivery for pre-sold buyers. Physical books linked separately.
+- **Support:** Buy Me a Coffee + Stripe donations.
+- **Newsletter:** ESP (Kit / Buttondown / Beehiiv).
+
+---
+
+## This proof
+
+- `index.html` + `styles.css` — a self-contained hero page proving the whole brand
+  world (paper, ink, gold seal, vintage serifs, lamplight, slow ink-fade motion,
+  pen-stroke hover underlines, wax-seal CTA).
+- The goat illustration in the plate is a **hand-drawn stand-in**. Yael's actual
+  Herford-style art drops into `.plate` when her files arrive.
+
+### Preview locally
+Open `index.html` in any browser, or:
+```
+npx serve .
+```
+
+### Deploy (Vercel)
+Static site — framework preset **"Other"**, no build step. Auto-deploys on push.
+
+## Next step
+Scaffold the full Next.js structure (all sections + Decap + integration stubs)
+once this direction is approved.
