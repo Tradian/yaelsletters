@@ -130,6 +130,14 @@ body::before {
   pointer-events: none;
 }
 .plate svg { display: block; width: 100%; height: auto; }
+.plate__art {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* line-art scan: drop the white ground so the goat sits on the cream stock */
+  mix-blend-mode: multiply;
+  filter: contrast(1.06) brightness(1.04);
+}
 .plate__caption {
   margin: 0.5rem 0 0;
   font-family: var(--font-read);
