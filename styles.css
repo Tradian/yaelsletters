@@ -280,10 +280,21 @@ body::before {
   animation-delay: var(--d, 0s);
 }
 
+/* Ethereal ink trail — floats above the page, stains the paper via multiply,
+   never intercepts clicks. The script itself bows out under reduced motion. */
+#ink-trail {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal { animation: none; opacity: 1; transform: none; }
   body { background-attachment: scroll; }
   .seal-btn, .penlink::after { transition: none; }
+  #ink-trail { display: none; }
 }
 
 @media (max-width: 480px) {
