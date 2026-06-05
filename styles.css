@@ -14,6 +14,11 @@
   --seal-deep:  #8a6220;   /* gold in shadow */
   --bloom:      #9c5a59;   /* faded wildflower rose — rare ornament only */
 
+  /* Divine light — Prince of Egypt warmth layered over the paper */
+  --gold-glow:  #ffd687;   /* the burning-bush gold */
+  --amber-glow: #e7a23c;   /* light gone to deeper amber */
+  --dusk:       #2b2746;   /* cool dusk indigo — the warm/cool counterweight */
+
   /* Type */
   --font-display: "Cormorant Garamond", Georgia, serif;  /* engraved titles */
   --font-read:    "EB Garamond", Georgia, serif;          /* the reading voice */
@@ -34,12 +39,19 @@ body {
   font-family: var(--font-read);
   color: var(--ink);
   background-color: var(--paper);
-  /* Lamplight: one warm pool of light in the center, dusk at the edges */
+  /* Prince-of-Egypt light: a golden sun pouring from above, a soft pool of
+     reading light at the heart, and cool dusk settling along the lower edge */
   background-image:
-    radial-gradient(120% 90% at 50% 32%,
-      rgba(255, 250, 235, 0.55) 0%,
-      rgba(241, 233, 210, 0) 42%,
-      rgba(27, 41, 31, 0.10) 100%);
+    radial-gradient(85% 60% at 50% -6%,
+      rgba(255, 214, 135, 0.65) 0%,
+      rgba(245, 196, 110, 0.22) 30%,
+      rgba(245, 196, 110, 0) 62%),
+    radial-gradient(120% 90% at 50% 38%,
+      rgba(255, 249, 230, 0.45) 0%,
+      rgba(241, 233, 210, 0) 50%),
+    radial-gradient(130% 85% at 50% 118%,
+      rgba(43, 39, 70, 0.32) 0%,
+      rgba(43, 39, 70, 0) 55%);
   background-attachment: fixed;
   line-height: 1.62;
   text-rendering: optimizeLegibility;
@@ -58,6 +70,26 @@ body::before {
   opacity: 0.55;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* God-rays — faint volumetric light shafts streaming from above,
+   masked so they bloom near the top and dissolve before the text */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.7;
+  mix-blend-mode: screen;
+  background:
+    repeating-conic-gradient(from 166deg at 50% -10%,
+      rgba(255, 226, 162, 0) 0deg,
+      rgba(255, 226, 162, 0) 2.2deg,
+      rgba(255, 226, 162, 0.34) 4deg,
+      rgba(255, 226, 162, 0) 6deg);
+  -webkit-mask-image: radial-gradient(86% 72% at 50% -2%, #000 0%, rgba(0,0,0,0) 76%);
+  mask-image: radial-gradient(86% 72% at 50% -2%, #000 0%, rgba(0,0,0,0) 76%);
 }
 
 .page { position: relative; z-index: 2; }
@@ -280,14 +312,14 @@ body::before {
   animation-delay: var(--d, 0s);
 }
 
-/* Ethereal ink trail — floats above the page, stains the paper via multiply,
-   never intercepts clicks. The script itself bows out under reduced motion. */
+/* Ethereal light trail — floats above the page and adds warm light via
+   screen, never intercepts clicks. The script bows out under reduced motion. */
 #ink-trail {
   position: fixed;
   inset: 0;
   z-index: 3;
   pointer-events: none;
-  mix-blend-mode: multiply;
+  mix-blend-mode: screen;
 }
 
 @media (prefers-reduced-motion: reduce) {

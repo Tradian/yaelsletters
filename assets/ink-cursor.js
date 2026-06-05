@@ -1,9 +1,10 @@
-/* Ethereal ink trail — follows the cursor, curls through a flow field,
-   and rises and dissipates like ink let loose in water.
+/* Ethereal light trail — follows the cursor, curls through a flow field,
+   and rises and dissipates like warm light let loose in air.
 
-   Dependency-free. Renders dark forest-ink into a fixed canvas that the
-   stylesheet blends onto the paper with mix-blend-mode: multiply, so the
-   swirl stains the page rather than glowing over it. Honours
+   Dependency-free. Renders warm divine-light (Prince of Egypt gold) into a
+   fixed canvas that the stylesheet blends onto the paper with
+   mix-blend-mode: screen, so the swirl adds light rather than darkening it.
+   Wisps accumulate additively for luminous cores. Honours
    prefers-reduced-motion and stays quiet on touch-only devices. */
 
 (function () {
@@ -17,9 +18,11 @@
   if (!canvas) return;
   var ctx = canvas.getContext("2d");
 
-  // Forest ink, matching the site's --ink-deep. Kept as components so each
-  // wisp can carry its own alpha.
-  var INK = { r: 27, g: 41, b: 31 };
+  // Warm divine light — a luminous core fading out through amber gold.
+  // Stored as "r,g,b" strings so each wisp can carry its own alpha.
+  var CORE = "255,234,184";   // bright warm-white heart
+  var MID  = "246,196,108";   // golden body
+  var EDGE = "231,150,60";    // amber fade-out
 
   var dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
   var W = 0, H = 0;
@@ -131,6 +134,7 @@
     }
 
     ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = "lighter"; // light adds to light
 
     for (var k = 0; k < pool.length; k++) {
       var p = pool[k];
@@ -153,8 +157,9 @@
       if (a <= 0.002) continue;
 
       var g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius);
-      g.addColorStop(0, "rgba(" + INK.r + "," + INK.g + "," + INK.b + "," + a + ")");
-      g.addColorStop(1, "rgba(" + INK.r + "," + INK.g + "," + INK.b + ",0)");
+      g.addColorStop(0, "rgba(" + CORE + "," + a + ")");
+      g.addColorStop(0.45, "rgba(" + MID + "," + (a * 0.6) + ")");
+      g.addColorStop(1, "rgba(" + EDGE + ",0)");
       ctx.fillStyle = g;
       ctx.beginPath();
       ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
