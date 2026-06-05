@@ -60,16 +60,32 @@ body {
   overflow-x: hidden;
 }
 
-/* Faint paper grain laid over the whole page */
+/* Parchment: an ancient vellum, restored — fine tooth, uneven aged tone,
+   a few soft foxing stains, and gently darkened edges. Multiplied behind the
+   text (z-index 1) so the surface ages without touching legibility. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.55;
+  opacity: 0.7;
   mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  background-image:
+    /* aged edges — a soft, warm vignette */
+    radial-gradient(125% 115% at 50% 42%,
+      rgba(58, 42, 22, 0) 56%, rgba(58, 42, 22, 0.20) 100%),
+    /* foxing — a scatter of faint sepia stains */
+    radial-gradient(38% 30% at 13% 17%, rgba(150, 108, 58, 0.12), rgba(150, 108, 58, 0) 70%),
+    radial-gradient(42% 34% at 87% 83%, rgba(150, 108, 58, 0.10), rgba(150, 108, 58, 0) 72%),
+    radial-gradient(30% 26% at 80% 24%, rgba(122, 88, 46, 0.09), rgba(122, 88, 46, 0) 70%),
+    radial-gradient(34% 30% at 22% 78%, rgba(122, 88, 46, 0.08), rgba(122, 88, 46, 0) 72%),
+    /* the parchment body: large tonal mottle, then fine tooth */
+    url("assets/parchment-mottle.svg"),
+    url("assets/parchment-grain.svg");
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, repeat, repeat;
+  background-size: cover, cover, cover, cover, cover, 640px 640px, 200px 200px;
+  background-blend-mode: multiply;
 }
 
 /* God-rays — faint volumetric light shafts streaming from above,
