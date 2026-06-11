@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Yael's Letters</title>
-  <meta name="description" content="Letters from the farm — a quiet home for the writing you've been following." />
+  <title>About — Yael's Letters</title>
+  <meta name="description" content="A short introduction — who writes the letters, and why from a farm." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Pinyon+Script&display=swap" rel="stylesheet" />
@@ -19,48 +19,42 @@
         <li><a href="letters.html">The Letters</a></li>
         <li><a href="books.html">Books</a></li>
         <li><a href="support.html">Support</a></li>
-        <li><a href="about.html">About</a></li>
+        <li><a href="about.html" class="is-active">About</a></li>
       </ul>
     </nav>
 
-    <main class="hero">
+    <main class="inner">
 
-      <p class="kicker reveal" style="--d:.35s">Letters from the farm</p>
+      <p class="kicker reveal" style="--d:.3s">A short introduction</p>
+      <h1 class="page-title reveal" style="--d:.45s">About <em>Yael</em></h1>
 
-      <!-- The plate: a vintage frontispiece.
-           Oliver Herford's goat (Artful Anticks, 1894) — she's eaten the note
-           and writes you another. Public domain. -->
-      <figure class="plate reveal" style="--d:.55s">
+      <figure class="plate reveal" style="--d:.6s">
         <img class="plate__art" src="assets/goat.jpg"
              alt="A goat seated on a hill, writing a letter with a quill pen — an Oliver Herford illustration"
              width="275" height="324" />
         <figcaption class="plate__caption">&ldquo;She writes to you from the hill.&rdquo;</figcaption>
       </figure>
 
-      <h1 class="wordmark reveal" style="--d:.8s">
-        <span class="word">Yael&rsquo;s</span> <span class="word"><em>Letters</em></span>
-      </h1>
+      <!-- SAMPLE COPY — placeholder bio in Yael's voice; kept short on purpose -->
+      <article class="letterbody reveal" style="--d:.75s">
+        <p>
+          I write letters from a small farm on a long hill &mdash; about
+          faith, fences, kitchen tables, animals with opinions, and the slow
+          work of becoming a person. The letters began on borrowed ground,
+          posted into a feed that scrolled them away by morning. This is
+          their home now: one quiet place, owned outright, where nothing
+          scrolls away.
+        </p>
+        <p>
+          If you&rsquo;re new: start with any letter at all. They were
+          written one at a time and they&rsquo;re happiest read that way.
+          If you&rsquo;ve been reading all along &mdash; you know who you
+          are, and these pages were built for you.
+        </p>
+        <p class="signature">&mdash; Yael</p>
+      </article>
 
-      <p class="subhead reveal" style="--d:1s">
-        The writing you&rsquo;ve been following &mdash; gathered into one quiet place,
-        away from the noise.
-      </p>
-
-      <p class="signature reveal" style="--d:1.15s">&mdash; Yael</p>
-
-      <div class="actions reveal" style="--d:1.3s">
-        <a class="seal-btn" href="#subscribe">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="9" stroke="#fbf4df" stroke-width="1.5"/>
-            <path d="M8.5 12.5 11 15 16 9.5" stroke="#fbf4df" stroke-width="1.6"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Get the Letters
-        </a>
-        <a class="penlink" href="letter-the-goat-ate-my-list.html">Read the latest letter</a>
-      </div>
-
-      <section class="subscribe reveal" id="subscribe" style="--d:1.45s">
+      <section class="subscribe reveal" id="subscribe" style="--d:.95s">
         <h2 class="subscribe__title">Get the Letters</h2>
         <p class="subscribe__note">One letter at a time, straight to you. No noise, ever.</p>
         <!-- ESP stub: point this form at Kit / Buttondown / Beehiiv when chosen -->
@@ -81,8 +75,7 @@
 
   </div>
 
-  <!-- Atelier: ink becomes light. The quill ribbon and glyphs live on the
-       ink layer (multiply); embers, motes and blooms on the light layer. -->
+  <!-- Atelier: ink becomes light -->
   <canvas id="ink-layer" aria-hidden="true"></canvas>
   <canvas id="light-layer" aria-hidden="true"></canvas>
   <script src="assets/ink-light.js" defer></script>

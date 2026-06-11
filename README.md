@@ -3,8 +3,20 @@
 A quiet home for the writing — gathered off Facebook into one place Yael owns.
 Faith-and-farm letters, books, support, and a newsletter.
 
-**Status:** Hero proof (visual direction). The blog, bookstore, donations, and
-newsletter are scoped but not yet built.
+**Status:** Full static draft, awaiting first review. All sections from the
+brief are built as pages with sample copy and clearly-marked integration
+stubs (Decap blog, Gumroad/Payhip storefront, BMC/Stripe support, ESP
+newsletter, hosted comments). Live preview deploys from this branch via
+GitHub Pages.
+
+| Page | File |
+|---|---|
+| Hero + Subscribe | `index.html` |
+| The Letters (index) | `letters.html` |
+| A letter, opened (+ comments) | `letter-the-goat-ate-my-list.html` |
+| Books | `books.html` |
+| Support | `support.html` |
+| About | `about.html` |
 
 ---
 

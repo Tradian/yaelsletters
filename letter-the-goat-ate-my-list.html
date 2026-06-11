@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Goat Ate My List — Yael's Letters</title>
+  <meta name="description" content="A letter from the farm: the whole spring planned on one sheet of paper, and a goat with better ideas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Pinyon+Script&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+
+    <nav class="nav reveal" style="--d:.1s">
+      <a class="nav__mark" href="index.html">Yael&rsquo;s Letters</a>
+      <ul class="nav__links">
+        <li><a href="letters.html" class="is-active">The Letters</a></li>
+        <li><a href="books.html">Books</a></li>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+
+    <main class="inner">
+
+      <p class="kicker reveal" style="--d:.3s">A letter &middot; March 2026</p>
+      <h1 class="page-title reveal" style="--d:.45s">The Goat Ate <em>My List</em></h1>
+
+      <!-- SAMPLE LETTER — placeholder text in Yael's voice, to prove the
+           reading experience. Her real letters replace this through Decap. -->
+      <article class="letterbody reveal" style="--d:.65s">
+        <p>
+          Dear friend &mdash; I had the whole spring planned on one sheet of
+          paper. Seed orders down the left margin, fence repairs down the
+          right, and across the top, underlined twice, the words <em>this year,
+          on time</em>. I set it on the porch rail while I carried feed, and
+          you already know where this is going.
+        </p>
+        <p>
+          She didn&rsquo;t even hurry. That&rsquo;s the part I keep returning
+          to. She walked over as if invited, took the corner of April in her
+          mouth, and looked straight at me while the whole season disappeared
+          like a communion wafer. I stood there holding a feed bucket,
+          watching my plans become, very literally, her breakfast.
+        </p>
+        <p>
+          I was angry for about a minute. Then I sat down on the step and
+          laughed until the dog came to check on me. Because here is the
+          truth I would not have written to you otherwise: the list was a
+          fence I had built around the spring, and I was already living
+          pressed against the inside of it, in February, out of breath.
+        </p>
+        <p>
+          The seeds went in late. The fence got mended when the ground was
+          ready and not before. And the spring came anyway &mdash; it always
+          comes anyway &mdash; not because I scheduled it but because Someone
+          keeps a calendar far kinder than mine.
+        </p>
+        <p>
+          So this month I am practicing planning in pencil. Light lines. Wide
+          margins. Room in the corner of every page for a goat.
+        </p>
+        <p class="signature">&mdash; Yael</p>
+      </article>
+
+      <!-- Moderated comments: hosted widget mounts here, approval queue,
+           toggled per-post from the CMS. Quiet until then. -->
+      <section class="comments reveal" style="--d:.85s">
+        <h2 class="comments__title">Letters back</h2>
+        <p class="comments__note">
+          Replies open here soon &mdash; read and gently moderated, the way a
+          mailbox should be. Until then, the best reply is to pass the letter
+          to someone who needs it.
+        </p>
+        <p class="stub-note">Hosted comments connect here &mdash; approval queue, per-post toggle</p>
+      </section>
+
+      <section class="subscribe reveal" id="subscribe" style="--d:1s">
+        <h2 class="subscribe__title">Get the next letter</h2>
+        <p class="subscribe__note">It will find you before the goat finds the list.</p>
+        <!-- ESP stub: point this form at Kit / Buttondown / Beehiiv when chosen -->
+        <form class="subscribe__form" action="#" method="post">
+          <label class="visually-hidden" for="email">Email address</label>
+          <input id="email" type="email" name="email" placeholder="your@email.com" required />
+          <button class="seal-btn" type="submit">Subscribe</button>
+        </form>
+        <p class="stub-note">Newsletter service connects here &mdash; Kit / Buttondown / Beehiiv</p>
+      </section>
+
+    </main>
+
+    <footer class="signoff">
+      <p class="signoff__line">Until the next letter,</p>
+      <p class="signoff__meta">Yael&rsquo;s Letters &middot; written from the farm</p>
+    </footer>
+
+  </div>
+
+  <!-- Atelier: ink becomes light -->
+  <canvas id="ink-layer" aria-hidden="true"></canvas>
+  <canvas id="light-layer" aria-hidden="true"></canvas>
+  <script src="assets/ink-light.js" defer></script>
+</body>
+</html>

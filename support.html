@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support — Yael's Letters</title>
+  <meta name="description" content="Keep the lamp lit — ways to support the letters from the farm." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Pinyon+Script&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+
+    <nav class="nav reveal" style="--d:.1s">
+      <a class="nav__mark" href="index.html">Yael&rsquo;s Letters</a>
+      <ul class="nav__links">
+        <li><a href="letters.html">The Letters</a></li>
+        <li><a href="books.html">Books</a></li>
+        <li><a href="support.html" class="is-active">Support</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+
+    <main class="inner">
+
+      <p class="kicker reveal" style="--d:.3s">Keep the lamp lit</p>
+      <h1 class="page-title reveal" style="--d:.45s">Support the <em>Letters</em></h1>
+
+      <!-- SAMPLE COPY — placeholder ask in Yael's voice -->
+      <article class="letterbody reveal" style="--d:.6s">
+        <p>
+          The letters are free, and they will stay free. Nobody should need a
+          receipt to read about a goat eating a to-do list.
+        </p>
+        <p>
+          But the lamp burns oil, the fence eats nails, and the writing takes
+          the quietest hours of the farm&rsquo;s day. If the letters have
+          meant something to you and you find yourself wanting to help carry
+          them, you can. It makes a real difference, and I notice every
+          single one.
+        </p>
+        <p class="signature">&mdash; Yael</p>
+      </article>
+
+      <div class="actions reveal" style="--d:.8s">
+        <!-- Buy Me a Coffee stub: replace href with the BMC page when created -->
+        <a class="seal-btn" href="#">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke="#fbf4df" stroke-width="1.5"/>
+            <path d="M8.5 12.5 11 15 16 9.5" stroke="#fbf4df" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Buy Yael a coffee
+        </a>
+        <!-- Stripe donation stub: replace href with the Stripe payment link -->
+        <a class="penlink" href="#">Give another way</a>
+      </div>
+      <p class="stub-note reveal" style="--d:.85s">Buy Me a Coffee + Stripe donations connect here</p>
+
+      <ul class="ways reveal" style="--d:.95s">
+        <li>No money to spare? Send a letter to someone who needs it &mdash; that helps most of all.</li>
+        <li>Pass a book along when you finish it. Books like being handed over fences.</li>
+        <li>Write back when comments open. Knowing who&rsquo;s out there keeps the ink moving.</li>
+      </ul>
+
+      <section class="subscribe reveal" id="subscribe" style="--d:1.05s">
+        <h2 class="subscribe__title">The simplest support is reading</h2>
+        <p class="subscribe__note">Get each letter as it&rsquo;s written. Free, always.</p>
+        <!-- ESP stub: point this form at Kit / Buttondown / Beehiiv when chosen -->
+        <form class="subscribe__form" action="#" method="post">
+          <label class="visually-hidden" for="email">Email address</label>
+          <input id="email" type="email" name="email" placeholder="your@email.com" required />
+          <button class="seal-btn" type="submit">Subscribe</button>
+        </form>
+        <p class="stub-note">Newsletter service connects here &mdash; Kit / Buttondown / Beehiiv</p>
+      </section>
+
+    </main>
+
+    <footer class="signoff">
+      <p class="signoff__line">Until the next letter,</p>
+      <p class="signoff__meta">Yael&rsquo;s Letters &middot; written from the farm</p>
+    </footer>
+
+  </div>
+
+  <!-- Atelier: ink becomes light -->
+  <canvas id="ink-layer" aria-hidden="true"></canvas>
+  <canvas id="light-layer" aria-hidden="true"></canvas>
+  <script src="assets/ink-light.js" defer></script>
+</body>
+</html>
