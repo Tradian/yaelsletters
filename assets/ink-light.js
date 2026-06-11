@@ -86,6 +86,50 @@
   window.addEventListener("pointerdown", function (e) {
     splashes.push({ x: e.clientX, y: e.clientY, r: 3, life: 1 });
     bloom(e.clientX, e.clientY, 16);
+    // a tap also spills a few letters — the main flourish on touch screens
+    for (var i = 0; i < 3; i++) {
+      if (glyphs.length < 60) {
+        spawnGlyph(e.clientX + (Math.random() - 0.5) * 36,
+                   e.clientY + (Math.random() - 0.5) * 24,
+                   4 + Math.random() * 6);
+      }
+    }
+  }, { passive: true });
+
+  // the browser takes the pointer for scrolling: lift the pen cleanly
+  window.addEventListener("pointercancel", function () {
+    if (ribbon.length && ribbon[ribbon.length - 1] !== null) ribbon.push(null);
+  }, { passive: true });
+
+  // --- Scroll stirs the light ----------------------------------------------
+  // On touch screens scrolling IS the gesture, so the page answers it:
+  // embers rise with the scroll, letterforms tumble in the margins.
+  var lastSY = window.scrollY, lastST = performance.now(), scrollCarry = 0;
+  window.addEventListener("scroll", function () {
+    var now = performance.now();
+    var dy = window.scrollY - lastSY;
+    var dt = Math.max(now - lastST, 1);
+    lastSY = window.scrollY; lastST = now;
+    var v = Math.min(Math.abs(dy) / dt * 16, 16);   // ~px per frame, capped
+    scrollCarry += v * 0.3;
+    var n = scrollCarry | 0; scrollCarry -= n;
+    var down = dy > 0;                               // content rises: dust rises
+    for (var i = 0; i < n; i++) {
+      var x = Math.random() * W;
+      var y = down ? H - Math.random() * H * 0.3 : Math.random() * H * 0.3;
+      spawnEmber(x, y,
+        (Math.random() - 0.5) * 0.6,
+        down ? -(0.6 + Math.random() * 0.9) : 0.2 - Math.random() * 0.5,
+        Math.random() < 0.22);
+      if (Math.random() < 0.16 && glyphs.length < 60) {
+        var mx = Math.random() < 0.5
+          ? W * (0.04 + Math.random() * 0.08)
+          : W * (0.88 + Math.random() * 0.08);
+        spawnGlyph(mx, down ? H * (0.7 + Math.random() * 0.25)
+                            : H * (0.05 + Math.random() * 0.25),
+                   5 + Math.random() * 8);
+      }
+    }
   }, { passive: true });
 
   // --- Embers: the light that dried ink becomes ----------------------------
@@ -138,8 +182,10 @@
   }
 
   // --- Ambient motes: dust drifting in the god-rays ------------------------
+  // fewer on small screens — gentler on phone batteries
+  var MOTE_COUNT = window.innerWidth < 600 ? 42 : 70;
   var motes = [];
-  for (var m = 0; m < 70; m++) {
+  for (var m = 0; m < MOTE_COUNT; m++) {
     motes.push({
       x: Math.random(), y: Math.random(),       // kept normalized; survives resize
       r: 0.6 + Math.random() * 1.6,

@@ -44,6 +44,9 @@ body {
   -webkit-font-smoothing: antialiased;
   font-feature-settings: "onum" 1, "liga" 1;  /* old-style numerals */
   overflow-x: hidden;
+  /* touch: vertical pan scrolls and pinch zooms as normal, but a sideways
+     swipe keeps firing pointermove — finger-painting the ink ribbon */
+  touch-action: pan-y pinch-zoom;
 }
 
 /* Parchment: painted once per load onto #paper-layer (assets/paper.js) at
