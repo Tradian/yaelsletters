@@ -39,20 +39,6 @@ body {
   font-family: var(--font-read);
   color: var(--ink);
   background-color: var(--paper);
-  /* Prince-of-Egypt light: a golden sun pouring from above, a soft pool of
-     reading light at the heart, and cool dusk settling along the lower edge */
-  background-image:
-    radial-gradient(85% 60% at 50% -6%,
-      rgba(255, 214, 135, 0.65) 0%,
-      rgba(245, 196, 110, 0.22) 30%,
-      rgba(245, 196, 110, 0) 62%),
-    radial-gradient(120% 90% at 50% 38%,
-      rgba(255, 249, 230, 0.45) 0%,
-      rgba(241, 233, 210, 0) 50%),
-    radial-gradient(130% 85% at 50% 118%,
-      rgba(43, 39, 70, 0.32) 0%,
-      rgba(43, 39, 70, 0) 55%);
-  background-attachment: fixed;
   line-height: 1.62;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -69,23 +55,44 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.7;
+  opacity: 0.55;
   mix-blend-mode: multiply;
   background-image:
     /* aged edges — a soft, warm vignette */
-    radial-gradient(125% 115% at 50% 42%,
-      rgba(58, 42, 22, 0) 56%, rgba(58, 42, 22, 0.20) 100%),
-    /* foxing — a scatter of faint sepia stains */
-    radial-gradient(38% 30% at 13% 17%, rgba(150, 108, 58, 0.12), rgba(150, 108, 58, 0) 70%),
-    radial-gradient(42% 34% at 87% 83%, rgba(150, 108, 58, 0.10), rgba(150, 108, 58, 0) 72%),
-    radial-gradient(30% 26% at 80% 24%, rgba(122, 88, 46, 0.09), rgba(122, 88, 46, 0) 70%),
-    radial-gradient(34% 30% at 22% 78%, rgba(122, 88, 46, 0.08), rgba(122, 88, 46, 0) 72%),
-    /* the parchment body: large tonal mottle, then fine tooth */
+    radial-gradient(135% 125% at 50% 42%,
+      rgba(58, 42, 22, 0) 62%, rgba(58, 42, 22, 0.13) 100%),
+    /* foxing — two whisper-faint sepia drifts, no hard pools */
+    radial-gradient(60% 48% at 14% 16%, rgba(150, 108, 58, 0.05), rgba(150, 108, 58, 0) 80%),
+    radial-gradient(64% 52% at 86% 84%, rgba(150, 108, 58, 0.045), rgba(150, 108, 58, 0) 82%),
+    /* the parchment body: large smooth mottle, then fine tooth */
     url("assets/parchment-mottle.svg"),
     url("assets/parchment-grain.svg");
-  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, repeat, repeat;
-  background-size: cover, cover, cover, cover, cover, 640px 640px, 200px 200px;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat;
+  background-size: cover, cover, cover, 1024px 1024px, 200px 200px;
   background-blend-mode: multiply;
+}
+
+/* The light wash — a golden sun pouring from above, a soft pool of reading
+   light at the heart, cool dusk settling along the lower edge. Lives on a
+   fixed overlay (not background-attachment: fixed, which paints in bands on
+   long pages and mobile) so it stays glassy-smooth everywhere. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(85% 60% at 50% -6%,
+      rgba(255, 214, 135, 0.55) 0%,
+      rgba(245, 196, 110, 0.18) 32%,
+      rgba(245, 196, 110, 0) 64%),
+    radial-gradient(120% 90% at 50% 38%,
+      rgba(255, 249, 230, 0.4) 0%,
+      rgba(241, 233, 210, 0) 52%),
+    radial-gradient(130% 85% at 50% 118%,
+      rgba(43, 39, 70, 0.26) 0%,
+      rgba(43, 39, 70, 0) 56%);
 }
 
 .page { position: relative; z-index: 2; }
@@ -321,7 +328,6 @@ body::before {
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { animation: none; opacity: 1; transform: none; }
-  body { background-attachment: scroll; }
   .seal-btn, .penlink::after { transition: none; }
   #ink-layer, #light-layer { display: none; }
 }
