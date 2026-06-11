@@ -46,30 +46,15 @@ body {
   overflow-x: hidden;
 }
 
-/* Parchment: an ancient vellum, restored — fine tooth, uneven aged tone,
-   a few soft foxing stains, and gently darkened edges. Multiplied behind the
-   text (z-index 1) so the surface ages without touching legibility. */
-body::before {
-  content: "";
+/* Parchment: painted once per load onto #paper-layer (assets/paper.js) at
+   exactly the viewport size — per-pixel grain plus huge soft tonal pools,
+   so nothing tiles and nothing repeats. Multiplied behind the text. */
+#paper-layer {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.55;
   mix-blend-mode: multiply;
-  background-image:
-    /* aged edges — a soft, warm vignette */
-    radial-gradient(135% 125% at 50% 42%,
-      rgba(58, 42, 22, 0) 62%, rgba(58, 42, 22, 0.13) 100%),
-    /* foxing — two whisper-faint sepia drifts, no hard pools */
-    radial-gradient(60% 48% at 14% 16%, rgba(150, 108, 58, 0.05), rgba(150, 108, 58, 0) 80%),
-    radial-gradient(64% 52% at 86% 84%, rgba(150, 108, 58, 0.045), rgba(150, 108, 58, 0) 82%),
-    /* the parchment body: large smooth mottle, then fine tooth */
-    url("assets/parchment-mottle.svg"),
-    url("assets/parchment-grain.svg");
-  background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat;
-  background-size: cover, cover, cover, 1024px 1024px, 200px 200px;
-  background-blend-mode: multiply;
 }
 
 /* The light wash — a golden sun pouring from above, a soft pool of reading
