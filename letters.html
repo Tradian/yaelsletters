@@ -38,16 +38,22 @@
       <ol class="letter-list reveal" style="--d:.8s">
 
         <li class="letter-item">
-          <p class="letter-date">June 2026</p>
-          <h2 class="letter-title">
-            <a href="letter-blame-paul.html">Yes, My Posts Are Long. Blame Paul.</a>
-          </h2>
-          <p class="letter-excerpt">
-            Paul preached so long a man fell out a window and died &mdash; and
-            after raising him, Paul kept going until dawn. My long letters are
-            not a bug; they&rsquo;re a feature.
-          </p>
-          <a class="penlink" href="letter-blame-paul.html">Read the letter</a>
+          <a class="envelope" href="letter-blame-paul.html"
+             aria-label="Open the letter: Yes, My Posts Are Long. Blame Paul. — June 2026">
+            <span class="envelope__sheet" aria-hidden="true"></span>
+            <span class="envelope__flap" aria-hidden="true"></span>
+            <span class="envelope__seal" aria-hidden="true">Y</span>
+            <span class="envelope__addr">
+              <span class="letter-date">June 2026</span>
+              <span class="envelope__title">Yes, My Posts Are Long. Blame Paul.</span>
+              <span class="letter-excerpt">
+                Paul preached so long a man fell out a window and died &mdash;
+                and after raising him, Paul kept going until dawn. My long
+                letters are not a bug; they&rsquo;re a feature.
+              </span>
+              <span class="envelope__open">Break the seal &amp; read</span>
+            </span>
+          </a>
         </li>
 
       </ol>
@@ -80,5 +86,6 @@
   <canvas id="light-layer" aria-hidden="true"></canvas>
   <script src="assets/paper.js" defer></script>
   <script src="assets/ink-light.js" defer></script>
+  <script src="assets/envelope.js" defer></script>
 </body>
 </html>
