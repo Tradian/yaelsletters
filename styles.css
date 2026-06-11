@@ -328,21 +328,22 @@ body::after {
   animation-delay: var(--d, 0s);
 }
 
-/* Ethereal light trail — floats above the page and adds warm light via
-   screen, never intercepts clicks. The script bows out under reduced motion. */
-#ink-trail {
+/* Atelier canvases — ink stains the paper, light lifts off it.
+   Both click-through; the script bows out under reduced motion. */
+#ink-layer,
+#light-layer {
   position: fixed;
   inset: 0;
-  z-index: 3;
   pointer-events: none;
-  mix-blend-mode: screen;
 }
+#ink-layer  { z-index: 3; mix-blend-mode: multiply; }
+#light-layer{ z-index: 4; mix-blend-mode: screen; }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { animation: none; opacity: 1; transform: none; }
   body { background-attachment: scroll; }
   .seal-btn, .penlink::after { transition: none; }
-  #ink-trail { display: none; }
+  #ink-layer, #light-layer { display: none; }
 }
 
 @media (max-width: 480px) {
