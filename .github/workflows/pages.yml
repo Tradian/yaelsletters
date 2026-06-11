@@ -30,6 +30,9 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        with:
+          # create/enable the Pages site automatically (no manual toggle)
+          enablement: true
 
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
