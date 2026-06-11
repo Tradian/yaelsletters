@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Yael's Desk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Pinyon+Script&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+
+    <nav class="nav reveal" style="--d:.1s">
+      <a class="nav__mark" href="index.html">Yael&rsquo;s Letters</a>
+      <ul class="nav__links">
+        <li><a href="index.html">View the site</a></li>
+      </ul>
+    </nav>
+
+    <main class="inner">
+
+      <p class="kicker reveal" style="--d:.3s">Private &middot; for Yael</p>
+      <h1 class="page-title reveal" style="--d:.45s">Yael&rsquo;s <em>Desk</em></h1>
+      <p class="page-lede reveal" style="--d:.55s">
+        Everything in one place. Tap a card. Most days you only need the
+        first one.
+      </p>
+
+      <div class="desk reveal" style="--d:.7s">
+
+        <a class="desk-card is-primary" href="admin/">
+          <svg class="desk-card__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 20l1-4L16 5l3 3L8 19l-4 1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M14 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <h2 class="desk-card__title">Write a Letter</h2>
+          <p class="desk-card__sub">Start a new letter or edit an old one. Hit Publish &mdash; the site and the email send themselves.</p>
+        </a>
+
+        <a class="desk-card" href="#" data-link="comments">
+          <span class="desk-card__ext">opens dashboard</span>
+          <svg class="desk-card__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 5h16v11H9l-5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+          <h2 class="desk-card__title">Comments</h2>
+          <p class="desk-card__sub">Approve or remove replies on the letters.</p>
+        </a>
+
+        <a class="desk-card" href="#" data-link="subscribers">
+          <span class="desk-card__ext">opens dashboard</span>
+          <svg class="desk-card__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+          <h2 class="desk-card__title">Subscribers</h2>
+          <p class="desk-card__sub">See who&rsquo;s receiving the letters.</p>
+        </a>
+
+        <a class="desk-card" href="#" data-link="donations">
+          <span class="desk-card__ext">opens dashboard</span>
+          <svg class="desk-card__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 8v8M9.5 9.5h3.2a1.8 1.8 0 010 3.6H10m-.5 0h3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+          <h2 class="desk-card__title">Donations</h2>
+          <p class="desk-card__sub">View support given through the page.</p>
+        </a>
+
+        <a class="desk-card" href="#" data-link="books">
+          <span class="desk-card__ext">opens dashboard</span>
+          <svg class="desk-card__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 4h11a2 2 0 012 2v14H7a2 2 0 01-2-2V4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M9 4v16" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          <h2 class="desk-card__title">Books</h2>
+          <p class="desk-card__sub">Add or update a book in the store.</p>
+        </a>
+
+      </div>
+
+      <p class="desk-note reveal" style="--d:.9s">
+        The four dashboards open in their own apps (you&rsquo;ll be signed in
+        there). Their links get added once we choose each service &mdash;
+        until then they sit quietly. Bookmark this page on your phone&rsquo;s
+        home screen for one-tap access.
+      </p>
+
+    </main>
+
+    <footer class="signoff">
+      <p class="signoff__line">Until the next letter,</p>
+      <p class="signoff__meta">Yael&rsquo;s Letters &middot; YHWH bless you</p>
+    </footer>
+
+  </div>
+
+  <canvas id="paper-layer" aria-hidden="true"></canvas>
+  <script src="assets/paper.js" defer></script>
+</body>
+</html>

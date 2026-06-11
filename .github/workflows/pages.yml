@@ -34,6 +34,17 @@ jobs:
           # create/enable the Pages site automatically (no manual toggle)
           enablement: true
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build letters & feed
+        run: |
+          npm ci
+          npm run build
+          rm -rf node_modules
+
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:

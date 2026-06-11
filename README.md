@@ -69,6 +69,37 @@ npx serve .
 ### Deploy (Vercel)
 Static site — framework preset **"Other"**, no build step. Auto-deploys on push.
 
+## How Yael runs the site (admin)
+
+Everything lives behind one page: **`/desk.html`** — "Yael's Desk." One card per
+job; most days she only taps **Write a Letter**.
+
+### Writing letters (the content pipeline)
+- Letters are markdown files in `content/letters/*.md` (front matter: `title`,
+  `date`, `slug`, `excerpt`, `seal`, optional `title_html`, `draft`; body below).
+- **`npm run build`** (`build/build.mjs`) regenerates `letter-<slug>.html`,
+  `letters.html` (the envelope index) and `feed.xml` (RSS). The deploy workflow
+  runs this automatically before publishing, so nothing is hand-coded.
+- The editor is **Sveltia CMS** at **`/admin/`** (mobile-friendly Decap
+  successor). Yael taps *New Letter*, types, hits *Publish* → it commits the
+  markdown → the site rebuilds → the letter appears in its envelope.
+
+### Auto-newsletter
+`feed.xml` carries each letter's full content. Point the email service
+(Kit / Buttondown / Beehiiv) at it as an **RSS broadcast** → publishing a
+letter emails it to subscribers automatically. No second step.
+
+### Two things to finish (one-time, needs the owner)
+1. **CMS login (GitHub OAuth):** deploy the free `sveltia-cms-auth`
+   Cloudflare Worker, create a GitHub OAuth app, then set `base_url` in
+   `admin/config.yml` to the worker URL. Add Yael + the second admin as repo
+   collaborators. (Until then `/admin/` loads but can't sign in.)
+2. **Pick the email service** and paste its RSS-broadcast + signup-form details;
+   the `<!-- ESP stub -->` forms and the Subscribers desk card get wired to it.
+
+Service dashboards (Comments, Subscribers, Donations, Books) are managed in
+each provider's own mobile app; the desk cards deep-link to them once chosen.
+
 ## Next step
-Scaffold the full Next.js structure (all sections + Decap + integration stubs)
-once this direction is approved.
+Wire the integrations (comments, storefront, Stripe/BMC, ESP) and merge to
+`main`, updating `admin/config.yml` `branch: main`.

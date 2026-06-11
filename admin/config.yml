@@ -1,0 +1,43 @@
+# Sveltia CMS — Yael's letter editor.
+# Commits markdown to content/letters/; the deploy rebuilds the site.
+
+backend:
+  name: github
+  repo: Tradian/yaelsletters
+  branch: claude/gifted-keller-lbwTO   # ← change to "main" once the site is merged
+  # base_url: https://<your-oauth-worker>   # ← set after the one-time login setup (see README)
+
+site_url: https://tradian.github.io/yaelsletters
+display_url: https://tradian.github.io/yaelsletters
+logo_url: https://tradian.github.io/yaelsletters/assets/goat.jpg
+
+# Where pictures dropped into a letter are stored
+media_folder: assets/uploads
+public_folder: assets/uploads
+
+# So she can preview a draft before publishing
+publish_mode: editorial_workflow
+
+collections:
+  - name: letters
+    label: Letters
+    label_singular: Letter
+    description: "Write a new letter, or edit an old one. Tap Publish when it's ready."
+    folder: content/letters
+    create: true
+    delete: true
+    slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
+    summary: "{{title}}  ·  {{date}}"
+    sortable_fields: [date, title]
+    view_filters:
+      - { label: "Drafts", field: draft, pattern: true }
+      - { label: "Published", field: draft, pattern: false }
+    fields:
+      - { name: title, label: "Title", widget: string, hint: "The letter's headline." }
+      - { name: date, label: "Date", widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { name: slug, label: "Web address", widget: string, hint: "Short, lowercase, dashes — e.g. blame-paul" }
+      - { name: excerpt, label: "Teaser", widget: text, hint: "One or two sentences shown on the envelope and in the email." }
+      - { name: body, label: "Letter", widget: markdown, hint: "Write freely. This is the letter itself." }
+      - { name: seal, label: "Wax-seal letter", widget: string, default: "Y", required: false }
+      - { name: draft, label: "Save as draft (don't publish yet)", widget: boolean, default: false }
+      - { name: title_html, label: "Fancy title (optional)", widget: string, required: false, hint: "Advanced — leave blank unless you want custom line breaks/italics in the headline." }
