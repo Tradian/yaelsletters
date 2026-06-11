@@ -19,10 +19,30 @@ public_folder: assets/uploads
 publish_mode: editorial_workflow
 
 collections:
+  # ── Series ───────────────────────────────────────────────────────────────
+  - name: series
+    label: Series
+    label_singular: Series
+    description: "A multi-part series. Create one here, then assign letters to it on the Letters tab."
+    folder: content/series
+    create: true
+    delete: true
+    identifier_field: title
+    slug: "{{fields.slug}}"
+    summary: "{{title}}"
+    sortable_fields: [order, title]
+    fields:
+      - { name: title, label: "Series name", widget: string }
+      - { name: slug, label: "Web address", widget: string, hint: "Short, lowercase, dashes — e.g. the-ancient-path" }
+      - { name: description, label: "What the series is about", widget: text }
+      - { name: seal, label: "Wax-seal letter", widget: string, default: "S", required: false }
+      - { name: order, label: "Sort order", widget: number, value_type: int, default: 0, required: false, hint: "Lower numbers sit higher on the page." }
+
+  # ── Letters ──────────────────────────────────────────────────────────────
   - name: letters
     label: Letters
     label_singular: Letter
-    description: "Write a new letter, or edit an old one. Tap Publish when it's ready."
+    description: "Write a new letter, or edit an old one. Choose a series or leave it standalone. Tap Publish when ready."
     folder: content/letters
     create: true
     delete: true
@@ -38,6 +58,16 @@ collections:
       - { name: slug, label: "Web address", widget: string, hint: "Short, lowercase, dashes — e.g. blame-paul" }
       - { name: excerpt, label: "Teaser", widget: text, hint: "One or two sentences shown on the envelope and in the email." }
       - { name: body, label: "Letter", widget: markdown, hint: "Write freely. This is the letter itself." }
+      - name: series
+        label: "Part of a series?"
+        widget: relation
+        required: false
+        collection: series
+        value_field: slug
+        search_fields: [title]
+        display_fields: [title]
+        hint: "Leave blank for a standalone letter."
+      - { name: part, label: "Part number (within the series)", widget: number, value_type: int, required: false, hint: "1, 2, 3… Only needed if it's in a series." }
       - { name: seal, label: "Wax-seal letter", widget: string, default: "Y", required: false }
       - { name: draft, label: "Save as draft (don't publish yet)", widget: boolean, default: false }
       - { name: title_html, label: "Fancy title (optional)", widget: string, required: false, hint: "Advanced — leave blank unless you want custom line breaks/italics in the headline." }
