@@ -88,26 +88,6 @@ body::before {
   background-blend-mode: multiply;
 }
 
-/* God-rays — faint volumetric light shafts streaming from above,
-   masked so they bloom near the top and dissolve before the text */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.7;
-  mix-blend-mode: screen;
-  background:
-    repeating-conic-gradient(from 166deg at 50% -10%,
-      rgba(255, 226, 162, 0) 0deg,
-      rgba(255, 226, 162, 0) 2.2deg,
-      rgba(255, 226, 162, 0.34) 4deg,
-      rgba(255, 226, 162, 0) 6deg);
-  -webkit-mask-image: radial-gradient(86% 72% at 50% -2%, #000 0%, rgba(0,0,0,0) 76%);
-  mask-image: radial-gradient(86% 72% at 50% -2%, #000 0%, rgba(0,0,0,0) 76%);
-}
-
 .page { position: relative; z-index: 2; }
 
 /* ---------- Top nav: a quiet line, not a menu bar ---------- */
