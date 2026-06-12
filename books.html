@@ -36,29 +36,59 @@
         gathered, edited by lamplight, and bound.
       </p>
 
-      <!-- SAMPLE BOOKS — placeholder titles/covers showing the shape of the
-           shelf. Real covers, titles, and prices replace these. The buy
-           buttons mount the embedded storefront (Gumroad / Payhip): Stripe
-           payment + automatic ebook delivery, incl. pre-sold buyers. -->
-      <div class="shelf reveal" style="--d:.8s">
-        <span class="shelf__board" aria-hidden="true"></span>
+      <!-- SAMPLE BOOKS — face-out 3D volumes. Titles/covers are placeholders;
+           real cover art drops onto the front face automatically when added at
+           assets/covers/<slug>.jpg. Buy buttons live on each book's page. -->
+      <div class="bookcase reveal" style="--d:.8s">
 
-        <a class="spine" href="book-letters-from-the-hill.html"
-           aria-label="Take down: Letters from the Hill">
-          <span class="spine__band" aria-hidden="true"></span>
-          <span class="spine__title">Letters from the Hill</span>
-          <span class="spine__seal" aria-hidden="true">Y</span>
-        </a>
+        <article class="book3d book3d--cloth">
+          <a class="book3d__link" href="book-letters-from-the-hill.html"
+             aria-label="Open: Letters from the Hill">
+            <span class="book3d__case">
+              <span class="book3d__face book3d__back" aria-hidden="true"></span>
+              <span class="book3d__face book3d__pages" aria-hidden="true"></span>
+              <span class="book3d__face book3d__spine" aria-hidden="true">
+                <span class="spine-title">Letters from the Hill</span>
+                <span class="spine-seal">Y</span>
+              </span>
+              <span class="book3d__face book3d__front" data-cover="assets/covers/letters-from-the-hill.jpg">
+                <span class="cover-kicker">The Collected Letters &middot; Vol. I</span>
+                <span class="cover-title">Letters from<br/>the Hill</span>
+                <span class="cover-rule"></span>
+                <span class="cover-author">Yael</span>
+                <span class="cover-sheen" aria-hidden="true"></span>
+              </span>
+            </span>
+          </a>
+          <span class="book3d__shadow" aria-hidden="true"></span>
+          <p class="book3d__caption">Letters from the Hill <span>Open the book &rarr;</span></p>
+        </article>
 
-        <a class="spine spine--cream" href="book-before-the-rooster.html"
-           aria-label="Take down: Before the Rooster">
-          <span class="spine__band" aria-hidden="true"></span>
-          <span class="spine__title">Before the Rooster</span>
-          <span class="spine__seal" aria-hidden="true">Y</span>
-        </a>
+        <article class="book3d book3d--cream">
+          <a class="book3d__link" href="book-before-the-rooster.html"
+             aria-label="Open: Before the Rooster">
+            <span class="book3d__case">
+              <span class="book3d__face book3d__back" aria-hidden="true"></span>
+              <span class="book3d__face book3d__pages" aria-hidden="true"></span>
+              <span class="book3d__face book3d__spine" aria-hidden="true">
+                <span class="spine-title">Before the Rooster</span>
+                <span class="spine-seal">Y</span>
+              </span>
+              <span class="book3d__face book3d__front" data-cover="assets/covers/before-the-rooster.jpg">
+                <span class="cover-kicker">The Collected Letters &middot; Vol. II</span>
+                <span class="cover-title">Before the<br/>Rooster</span>
+                <span class="cover-rule"></span>
+                <span class="cover-author">Yael</span>
+                <span class="cover-sheen" aria-hidden="true"></span>
+              </span>
+            </span>
+          </a>
+          <span class="book3d__shadow" aria-hidden="true"></span>
+          <p class="book3d__caption">Before the Rooster <span>Open the book &rarr;</span></p>
+        </article>
 
       </div>
-      <p class="shelf__hint reveal" style="--d:.9s">Take one down &mdash; click a spine</p>
+      <p class="bookcase__hint reveal" style="--d:.9s">Turn a book in your hand &mdash; then open it</p>
 
       <section class="subscribe reveal" id="subscribe" style="--d:1s">
         <h2 class="subscribe__title">Hear when a new book is ready</h2>
@@ -88,6 +118,7 @@
   <canvas id="light-layer" aria-hidden="true"></canvas>
   <script src="assets/paper.js" defer></script>
   <script src="assets/ink-light.js" defer></script>
+  <script src="assets/books3d.js" defer></script>
   <script src="assets/subscribe.js" defer></script>
 </body>
 </html>
