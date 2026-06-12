@@ -19,6 +19,24 @@ public_folder: assets/uploads
 publish_mode: editorial_workflow
 
 collections:
+  # ── Settings ───────────────────────────────────────────────────────────────
+  - name: settings
+    label: Settings
+    label_singular: Setting
+    description: "Little site-wide switches."
+    editor:
+      preview: false
+    files:
+      - name: site
+        label: "Site settings"
+        file: content/settings.json
+        fields:
+          - name: entrySound
+            label: "Soft goat sound when someone enters"
+            widget: boolean
+            default: true
+            hint: "A gentle bleat the first time a visitor taps or clicks on the home page. Turn off for silence."
+
   # ── Series ───────────────────────────────────────────────────────────────
   - name: series
     label: Series

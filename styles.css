@@ -1079,6 +1079,51 @@ a.nav__mark { color: inherit; text-decoration: none; }
   color: var(--ink);
   margin: 0.9rem 0 0;
 }
+/* the entrance — a warm parchment veil that lifts once on load */
+.entry-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% 36%, rgba(255,214,135,.10) 0%, rgba(241,233,210,0) 55%),
+    var(--paper);
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+.entry-veil.is-lifted { opacity: 0; }
+
+/* the visitor's mute control for the entry bleat — small and quiet */
+.sound-toggle {
+  position: fixed;
+  right: clamp(0.85rem, 2.5vw, 1.4rem);
+  bottom: clamp(0.85rem, 2.5vw, 1.4rem);
+  z-index: 50;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: var(--ink);
+  background: rgba(241,233,210,.7);
+  border: 1px solid rgba(47,69,56,.28);
+  border-radius: 999px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.25s ease, transform 0.25s ease, color 0.25s ease;
+}
+.sound-toggle:hover { opacity: 1; transform: translateY(-1px); }
+.sound-toggle svg { width: 1.15rem; height: 1.15rem; }
+.sound-toggle__off { display: none; }
+.sound-toggle.is-off { color: var(--ink-soft); }
+.sound-toggle.is-off .sound-toggle__on { display: none; }
+.sound-toggle.is-off .sound-toggle__off { display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  .entry-veil { transition: none; opacity: 0; }
+  .sound-toggle { transition: none; }
+}
+
 /* storefront/donation buttons that have no link yet — visible but quiet */
 .seal-btn.is-soon,
 .penlink.is-soon {

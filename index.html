@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div id="entry-veil" class="entry-veil" aria-hidden="true"></div>
   <div class="page">
 
     <nav class="nav reveal" style="--d:.1s">
@@ -84,6 +85,19 @@
 
   </div>
 
+  <!-- Visitor mute for the soft entry bleat; hidden unless Yael enables it -->
+  <button id="sound-toggle" class="sound-toggle" type="button" aria-pressed="true"
+          aria-label="Toggle the soft goat sound" title="Goat sound on — tap to mute" hidden>
+    <svg class="sound-toggle__on" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 9v6h3l5 4V5L8 9H5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M16 9.5a3.5 3.5 0 010 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <svg class="sound-toggle__off" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 9v6h3l5 4V5L8 9H5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M16 10l4 4M20 10l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </button>
+
   <!-- Atelier: ink becomes light. The quill ribbon and glyphs live on the
        ink layer (multiply); embers, motes and blooms on the light layer. -->
   <canvas id="paper-layer" aria-hidden="true"></canvas>
@@ -91,6 +105,7 @@
   <canvas id="light-layer" aria-hidden="true"></canvas>
   <script src="assets/paper.js" defer></script>
   <script src="assets/ink-light.js" defer></script>
+  <script src="assets/entry.js" defer></script>
   <script src="assets/subscribe.js" defer></script>
 </body>
 </html>
