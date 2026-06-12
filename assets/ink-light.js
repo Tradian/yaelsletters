@@ -45,6 +45,7 @@
     });
     ink.setTransform(dpr, 0, 0, dpr, 0, 0);
     lit.setTransform(dpr, 0, 0, dpr, 0, 0);
+    measureGoat();
   }
   resize();
   window.addEventListener("resize", resize, { passive: true });
@@ -233,6 +234,74 @@
     if (Math.random() < 0.45 && glyphs.length < 60) spawnGlyph(qx, qy, 6);
   }
 
+  // --- The goat as particles: assemble at the top, disperse to a horizon ----
+  // Sample the engraving into ink points; at rest they re-form the goat where
+  // the plate sits. Scrolling eases them up the flow field into golden light,
+  // a third settling toward a horizon band before the whole field fades.
+  var goat = { ready: false, parts: [], aspect: 1.178 };
+  var goatBox = { x: 0, y: 0, w: 0, h: 0 };
+
+  function measureGoat() {
+    if (!goat || !goat.ready || !plateArt) return;
+    var r = plateArt.getBoundingClientRect();
+    goatBox.x = r.left + window.scrollX;
+    goatBox.y = r.top + window.scrollY;
+    goatBox.w = r.width;
+    goatBox.h = r.height;
+  }
+
+  (function initGoat() {
+    if (!plateArt) return;                          // only the homepage has the plate
+    var img = new Image();
+    img.onload = function () {
+      var iw = img.naturalWidth, ih = img.naturalHeight;
+      if (!iw || !ih) return;
+      var off = document.createElement("canvas");
+      off.width = iw; off.height = ih;
+      var octx = off.getContext("2d");
+      octx.drawImage(img, 0, 0);
+      var data;
+      try { data = octx.getImageData(0, 0, iw, ih).data; }
+      catch (e) { return; }                         // tainted — keep the static plate
+      var pts = [], step = 3;
+      for (var y = 0; y < ih; y += step) {
+        for (var x = 0; x < iw; x += step) {
+          var i = (y * iw + x) * 4;
+          var lum = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+          if (data[i + 3] > 40 && lum < 120) pts.push({ nx: x / iw, ny: y / ih });
+        }
+      }
+      if (!pts.length) return;
+      var CAP = window.innerWidth < 600 ? 1500 : 2600;
+      if (pts.length > CAP) {                        // fair downsample
+        for (var s = pts.length - 1; s > 0; s--) {
+          var j = (Math.random() * (s + 1)) | 0, tmp = pts[s]; pts[s] = pts[j]; pts[j] = tmp;
+        }
+        pts.length = CAP;
+      }
+      for (var k = 0; k < pts.length; k++) {
+        var ang = -Math.PI / 2 + (Math.random() - 0.5) * 1.7;   // mostly upward
+        var dist = 60 + Math.random() * 230;
+        pts[k].ax = Math.cos(ang) * dist;
+        pts[k].ay = Math.sin(ang) * dist;
+        pts[k].horizon = Math.random() < 0.34;
+        pts[k].hoff = Math.random() - 0.5;
+        pts[k].seed = Math.random() * 1000;
+      }
+      goat.parts = pts;
+      goat.aspect = ih / iw;
+      goat.ready = true;
+      measureGoat();
+      document.documentElement.classList.add("goat-particles");
+    };
+    img.src = plateArt.currentSrc || plateArt.getAttribute("src") || "assets/goat.jpg";
+  })();
+
+  // re-measure once layout/fonts settle and after the intro reveal
+  window.addEventListener("load", measureGoat, { passive: true });
+  setTimeout(measureGoat, 800);
+  setTimeout(measureGoat, 2200);
+
   // --- Render loop ----------------------------------------------------------
   function frame(now) {
     var t = now * 0.001;
@@ -343,6 +412,49 @@
       lit.beginPath();
       lit.arc(mo.x * W, mo.y * H, mo.r, 0, Math.PI * 2);
       lit.fill();
+    }
+
+    // 6) The goat — assembled ink at rest; dispersing to gold + horizon on scroll.
+    if (goat.ready && goatBox.w > 0) {
+      var sY = window.scrollY;
+      var disperse = Math.max(H * 0.55, 1);
+      var pp = Math.min(sY / disperse, 1);
+      var ease = pp * pp * (3 - 2 * pp);                 // smoothstep
+      var gone = Math.min(Math.max((sY - disperse) / (H * 0.8), 0), 1);
+      var vis = 1 - gone;                                // fade the field away past the hero
+      if (vis > 0.01) {
+        var horizonY = H * 0.84;
+        for (var gi = 0; gi < goat.parts.length; gi++) {
+          var gp = goat.parts[gi];
+          var hx = goatBox.x + gp.nx * goatBox.w;
+          var hy = goatBox.y + gp.ny * goatBox.h - sY;
+          var px, py;
+          if (gp.horizon) {
+            var tx = W * (0.5 + gp.hoff * 0.62);
+            var ty = horizonY + Math.sin(gp.seed) * 5;
+            px = hx + (tx - hx) * ease;
+            py = hy + (ty - hy) * ease;
+          } else {
+            var fa = flow(hx, hy, t + gp.seed);
+            var wig = ease * 11;
+            px = hx + gp.ax * ease + Math.cos(fa) * wig;
+            py = hy + gp.ay * ease + Math.sin(fa) * wig - ease * 28;
+          }
+          if (py < -24 || py > H + 24) continue;
+          var inkA = (1 - ease) * 0.5 * vis;
+          if (inkA > 0.012) {
+            ink.fillStyle = "rgba(" + INK_RGB + "," + inkA + ")";
+            ink.fillRect(px - 0.7, py - 0.7, 1.5, 1.5);
+          }
+          var goldA = (gp.horizon ? ease * 0.2 : Math.sin(ease * Math.PI) * 0.32) * vis;
+          if (goldA > 0.012) {
+            lit.fillStyle = "rgba(" + MID + "," + goldA + ")";
+            lit.beginPath();
+            lit.arc(px, py, gp.horizon ? 1.5 : 1.2, 0, Math.PI * 2);
+            lit.fill();
+          }
+        }
+      }
     }
 
     requestAnimationFrame(frame);

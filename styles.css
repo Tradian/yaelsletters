@@ -185,7 +185,14 @@ body::after {
   /* line-art scan: drop the white ground so the goat sits on the cream stock */
   mix-blend-mode: multiply;
   filter: contrast(1.06) brightness(1.04);
+  transition: opacity 0.8s ease;
 }
+/* when the goat is drawn as live particles (assets/ink-light.js), retire the
+   static plate — its box stays, so layout and the quill-wisp origin are intact.
+   Reduced motion / no-canvas keeps the printed plate exactly as before. */
+.goat-particles .plate { border-color: transparent; }
+.goat-particles .plate::after { opacity: 0; }
+.goat-particles .plate__art { opacity: 0; }
 .plate__caption {
   margin: 0.5rem 0 0;
   font-family: var(--font-read);
@@ -869,6 +876,22 @@ a.nav__mark { color: inherit; text-decoration: none; }
   opacity: 0.4;
   pointer-events: none;
 }
+/* a real cover image, when one is provided — fills the frame; the
+   typographic cover below stays as the automatic fallback until then */
+.book-cover__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+.book-cover--has-image { padding: 0; background: #fffdf2; }
+.book-cover--has-image .book-cover__image { display: block; }
+.book-cover--has-image .book-cover__kicker,
+.book-cover--has-image .book-cover__title,
+.book-cover--has-image .book-cover__rule,
+.book-cover--has-image .book-cover__author { visibility: hidden; }
 .book-cover__kicker {
   font-family: var(--font-read);
   text-transform: uppercase;
