@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="robots" content="noindex" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https:; form-action 'self' https:" />
+  <title>Store setup — preview &amp; admin (for Yael)</title>
+  <meta name="description" content="A walkthrough of where the book and donation links are managed, with a live preview." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Pinyon+Script&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .wrap { max-width: 68rem; margin: 0 auto; padding: clamp(1.5rem, 5vw, 3.5rem) 1.25rem 4rem; }
+    .lede { color: var(--ink-soft); max-width: 40rem; }
+    .grid { display: grid; gap: 1.5rem; grid-template-columns: 1fr; margin-top: 1.5rem; }
+    @media (min-width: 60rem) { .grid { grid-template-columns: 1fr 1fr; align-items: start; } .preview { position: sticky; top: 1.5rem; } }
+
+    .panel { border: 1px solid rgba(47,69,56,.22); border-radius: 14px;
+      background: rgba(255,255,255,.35); padding: 1.25rem 1.25rem 1.5rem; }
+    .panel__tag { font-family: var(--font-display); font-weight: 600; letter-spacing: .04em;
+      text-transform: uppercase; font-size: .72rem; color: var(--seal-deep); margin: 0 0 .15rem; }
+    .panel__title { font-family: var(--font-display); color: var(--ink-deep);
+      font-size: 1.5rem; margin: 0 0 1rem; }
+
+    fieldset { border: 0; border-top: 1px solid rgba(47,69,56,.16); margin: 1.25rem 0 0; padding: 1rem 0 0; }
+    fieldset legend { font-family: var(--font-display); font-size: 1.05rem; color: var(--ink-deep); padding: 0; }
+    .field { margin: .7rem 0 0; }
+    .field label { display: block; font-size: .82rem; color: var(--ink-soft); margin: 0 0 .25rem; }
+    .field input { width: 100%; font-family: var(--font-read); font-size: .95rem; color: var(--ink-deep);
+      padding: .5rem .65rem; border: 1px solid rgba(47,69,56,.3); border-radius: 8px;
+      background: var(--paper); }
+    .field input:focus { outline: 2px solid var(--seal); outline-offset: 1px; }
+    .field.row { display: grid; grid-template-columns: 1fr 7rem; gap: .6rem; }
+
+    .controls { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.25rem; }
+    .btn-min { font-family: var(--font-read); font-size: .9rem; cursor: pointer;
+      border: 1px solid var(--ink); background: var(--ink); color: var(--paper);
+      padding: .45rem .9rem; border-radius: 999px; }
+    .btn-min.ghost { background: transparent; color: var(--ink); }
+
+    .prev-card { border: 1px solid rgba(47,69,56,.22); border-radius: 14px; padding: 1.5rem;
+      background: rgba(255,255,255,.45); }
+    .prev-book { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.4rem; }
+    .prev-cover { flex: 0 0 78px; height: 112px; border-radius: 4px;
+      background: linear-gradient(135deg, var(--ink) 0%, var(--ink-deep) 100%);
+      color: var(--paper); font-family: var(--font-display); font-size: .62rem; line-height: 1.25;
+      padding: .5rem .45rem; box-shadow: 0 6px 16px rgba(27,41,31,.25); }
+    .prev-meta h3 { font-family: var(--font-display); color: var(--ink-deep); margin: 0 0 .15rem; font-size: 1.2rem; }
+    .prev-meta .price { color: var(--ink-soft); font-size: .85rem; margin: 0 0 .6rem; }
+    .prev-card .actions { margin-top: .2rem; }
+    .pill { font-size: .68rem; color: var(--ink-soft); margin-left: .5rem; vertical-align: middle; }
+    .pill.is-live { color: var(--seal-deep); font-weight: 600; }
+    .prev-rule { border: 0; border-top: 1px dashed rgba(47,69,56,.25); margin: 1.4rem 0; }
+    .hint { font-size: .8rem; color: var(--ink-soft); margin: 1rem 0 0; font-style: italic; }
+
+    .check { display: grid; gap: 1.25rem; grid-template-columns: 1fr; margin-top: 1.5rem; }
+    @media (min-width: 48rem) { .check { grid-template-columns: 1fr 1fr; } }
+    .check ul { list-style: none; margin: .6rem 0 0; padding: 0; }
+    .check li { padding: .35rem 0 .35rem 1.6rem; position: relative; color: var(--ink-deep); font-size: .95rem; }
+    .check li::before { position: absolute; left: 0; top: .35rem; }
+    .check .done li::before { content: "✓"; color: var(--seal-deep); font-weight: 700; }
+    .check .open li::before { content: "○"; color: var(--ink-soft); }
+    .sub { color: var(--ink-soft); font-size: .85rem; }
+    .backlink { font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <p class="panel__tag"><a class="backlink" href="index.html">← Yael&rsquo;s Letters</a></p>
+    <h1 class="page-title" style="margin-top:.2rem">Selling the books &mdash; <em>how it works</em></h1>
+    <p class="lede">
+      This is a friendly walkthrough, Yael, of where you&rsquo;ll manage the book and
+      donation details &mdash; and a live preview so you can see exactly what happens.
+      Type a link into a box on the left and watch the matching button on the right
+      switch from <em>&ldquo;soon&rdquo;</em> to <em>live</em>. Nothing here is public; it&rsquo;s just for you.
+    </p>
+
+    <div class="grid">
+
+      <!-- ADMIN -->
+      <section class="panel admin">
+        <p class="panel__tag">1 · The admin side</p>
+        <h2 class="panel__title">Where you manage the details</h2>
+
+        <fieldset>
+          <legend>Letters from the Hill</legend>
+          <div class="field row">
+            <div>
+              <label for="in-hill-ebook">Ebook buy link</label>
+              <input id="in-hill-ebook" type="url" placeholder="paste your Payhip link" />
+            </div>
+            <div>
+              <label for="in-hill-price">Price</label>
+              <input id="in-hill-price" type="text" placeholder="$4.99" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="in-hill-paper">Paper copy link <span class="sub">(optional)</span></label>
+            <input id="in-hill-paper" type="url" placeholder="print-on-demand link, or leave blank" />
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Before the Rooster</legend>
+          <div class="field row">
+            <div>
+              <label for="in-rooster-ebook">Ebook buy link</label>
+              <input id="in-rooster-ebook" type="url" placeholder="paste your Payhip link" />
+            </div>
+            <div>
+              <label for="in-rooster-price">Price</label>
+              <input id="in-rooster-price" type="text" placeholder="$4.99" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="in-rooster-paper">Paper copy link <span class="sub">(optional)</span></label>
+            <input id="in-rooster-paper" type="url" placeholder="print-on-demand link, or leave blank" />
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Donations</legend>
+          <div class="field">
+            <label for="in-bmac">Buy Me a Coffee page</label>
+            <input id="in-bmac" type="url" placeholder="https://buymeacoffee.com/…" />
+          </div>
+          <div class="field">
+            <label for="in-stripe">Stripe link <span class="sub">(optional &mdash; &ldquo;give another way&rdquo;)</span></label>
+            <input id="in-stripe" type="url" placeholder="https://buy.stripe.com/…" />
+          </div>
+        </fieldset>
+
+        <div class="controls">
+          <button id="fill-example" class="btn-min" type="button">Show me a filled-in example</button>
+          <button id="clear-all" class="btn-min ghost" type="button">Clear</button>
+        </div>
+        <p class="hint">In real life you fill these in once &mdash; either I paste them for you, or
+          they live in one small settings file. Day to day, you&rsquo;ll mostly work in your
+          Payhip dashboard (prices, the files, who bought what).</p>
+      </section>
+
+      <!-- PREVIEW -->
+      <section class="preview">
+        <div class="prev-card">
+          <p class="panel__tag">2 · Live preview</p>
+          <h2 class="panel__title">What a visitor sees</h2>
+
+          <div class="prev-book">
+            <div class="prev-cover">Letters from the Hill</div>
+            <div class="prev-meta">
+              <h3>Letters from the Hill</h3>
+              <p class="price" data-price="hill">Ebook</p>
+              <div class="actions">
+                <a class="seal-btn is-soon" data-prev="hill-ebook" aria-disabled="true">Get the ebook</a>
+                <a class="penlink is-soon" data-prev="hill-paper" aria-disabled="true">Or the paper copy</a>
+              </div>
+              <span class="pill" data-pill="hill-ebook">○ soon</span>
+            </div>
+          </div>
+
+          <div class="prev-book">
+            <div class="prev-cover">Before the Rooster</div>
+            <div class="prev-meta">
+              <h3>Before the Rooster</h3>
+              <p class="price" data-price="rooster">Ebook</p>
+              <div class="actions">
+                <a class="seal-btn is-soon" data-prev="rooster-ebook" aria-disabled="true">Get the ebook</a>
+                <a class="penlink is-soon" data-prev="rooster-paper" aria-disabled="true">Or the paper copy</a>
+              </div>
+              <span class="pill" data-pill="rooster-ebook">○ soon</span>
+            </div>
+          </div>
+
+          <hr class="prev-rule" />
+
+          <h3 style="font-family:var(--font-display);color:var(--ink-deep);margin:0 0 .6rem">On the Support page</h3>
+          <div class="actions">
+            <a class="seal-btn is-soon" data-prev="bmac" aria-disabled="true">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" stroke="#fbf4df" stroke-width="1.5"/>
+                <path d="M8.5 12.5 11 15 16 9.5" stroke="#fbf4df" stroke-width="1.6"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Buy Yael a coffee
+            </a>
+            <a class="penlink is-soon" data-prev="stripe" aria-disabled="true">Give another way</a>
+          </div>
+          <span class="pill" data-pill="bmac">○ soon</span>
+
+          <p class="hint">A button stays a quiet &ldquo;soon&rdquo; until its link exists &mdash; so the
+            site never looks broken while you get set up. (Example links here are just
+            for show.)</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- CHECKLIST -->
+    <section style="margin-top:2.5rem">
+      <p class="panel__tag">3 · Where we are</p>
+      <h2 class="panel__title">Covered, and still open</h2>
+      <div class="check">
+        <div class="panel done">
+          <h3 style="font-family:var(--font-display);color:var(--ink-deep);margin:0">✓ Done</h3>
+          <ul class="done">
+            <li>Site built &amp; live &mdash; letters, books, about, support, privacy, terms</li>
+            <li>Subscribe sign-up flow</li>
+            <li>Storefront wiring &mdash; one settings file drives every buy &amp; donate button</li>
+            <li>Buttons show a graceful &ldquo;soon&rdquo; state until links exist</li>
+            <li>Seller chosen: <strong>Payhip</strong> (Stripe + automatic delivery, no inventory)</li>
+            <li>Setup &amp; delivery notes written up (STORE.md)</li>
+            <li>This preview / admin walkthrough</li>
+          </ul>
+        </div>
+        <div class="panel open">
+          <h3 style="font-family:var(--font-display);color:var(--ink-deep);margin:0">○ Open</h3>
+          <ul class="open">
+            <li>Create the Payhip account &amp; connect Stripe</li>
+            <li>Upload the two ebooks, set prices, copy the buy links</li>
+            <li>Paste the links in &rarr; buttons go live (I can do this for you)</li>
+            <li>Decide on paper copies (print-on-demand) or skip</li>
+            <li>Deliver to people who already pre-paid <span class="sub">(method TBD)</span></li>
+            <li>Donations: Buy Me a Coffee page <span class="sub">(parked for now)</span></li>
+            <li>Optional Stripe donation link <span class="sub">(parked for now)</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="assets/preview-admin.js" defer></script>
+</body>
+</html>
