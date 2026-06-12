@@ -116,7 +116,22 @@ body::after {
   font-size: 0.66rem;
   color: var(--ink-soft);
   text-decoration: none;
+  position: relative;
+  padding-bottom: 4px;
 }
+/* a pen-stroke underline wipes in on hover — the same hand as .penlink */
+.nav__links a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 5px;
+  background: no-repeat left center;
+  background-size: 0% 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='6' viewBox='0 0 120 6'%3E%3Cpath d='M1 3.4 C 22 1.2, 40 4.6, 60 3 S 100 1.4, 119 3.2' fill='none' stroke='%232f4538' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  transition: background-size 0.5s cubic-bezier(.2,.7,.2,1);
+}
+.nav__links a:hover::after,
+.nav__links a:focus-visible::after { background-size: 100% 100%; }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -134,6 +149,16 @@ body::after {
   color: var(--ink-soft);
   margin: 0 0 clamp(1.4rem, 4vh, 2.4rem);
   padding-left: 0.42em; /* optical: account for tracking */
+}
+/* a hairline ornament beneath the kicker — a quiet 'section starts here' mark */
+.kicker::after {
+  content: "";
+  display: block;
+  width: 2.2rem;
+  height: 1px;
+  margin: 0.7rem auto 0;
+  background: var(--ink);
+  opacity: 0.28;
 }
 
 /* The bordered plate — a vintage book frontispiece */
@@ -280,6 +305,17 @@ body::after {
   font-size: 1.3rem;
   color: var(--ink-deep);
   margin: 0 0 0.4rem;
+}
+/* a small gold lozenge closing the page — the one accent color, used sparingly */
+.signoff__line::before {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 5px;
+  margin: 0 auto 1rem;
+  background: var(--seal);
+  opacity: 0.7;
+  transform: rotate(45deg);
 }
 .signoff__meta {
   font-family: var(--font-read);

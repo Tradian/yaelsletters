@@ -30,7 +30,6 @@
   var CORE = "255,234,184";       // light: warm-white heart
   var MID  = "246,196,108";       // light: golden body
   var EDGE = "231,150,60";        // light: amber fade
-  var GLYPHS = "yaelsletters";    // letterforms that spill from the stroke
 
   var dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
   var W = 0, H = 0;
@@ -63,7 +62,7 @@
   var ribbon = [];                 // {x, y, t, w} — null marks a pen lift
 
   var pointer = { x: -1, y: -1, has: false };
-  var glyphCarry = 0;
+  var glyphCarry = 0, walkDir = 0, hoofSide = 1;
 
   window.addEventListener("pointermove", function (e) {
     var x = e.clientX, y = e.clientY;
@@ -75,9 +74,10 @@
     ribbon.push({ x: x, y: y, t: performance.now(), w: w });
     pointer.x = x; pointer.y = y; pointer.has = true;
 
-    // letterforms spill from the stroke as you travel
+    // hoof-prints stamp along the stroke — a goat walked across the page
+    if (last && speed > 0.01) walkDir = Math.atan2(y - last.y, x - last.x);
     glyphCarry += speed;
-    if (glyphCarry > 85 && glyphs.length < 60) {
+    if (glyphCarry > 75 && glyphs.length < 50) {
       glyphCarry = 0;
       spawnGlyph(x, y, speed);
     }
@@ -163,22 +163,42 @@
     }
   }
 
-  // --- Glyphs: letters that fall from the pen and burn into light ----------
-  var glyphs = [];
+  // --- Hoof-prints: a goat walks across the page; ink stamps that fade ------
+  var glyphs = [];   // (kept the name internally; these are hoof-prints now)
 
   function spawnGlyph(x, y, speed) {
+    hoofSide = -hoofSide;                       // alternate left / right print
+    var perp = walkDir + Math.PI / 2;
+    var off = (2.5 + Math.random() * 2.5) * hoofSide;
     glyphs.push({
-      ch: GLYPHS[(Math.random() * GLYPHS.length) | 0],
-      x: x, y: y,
-      vx: (Math.random() - 0.5) * 0.6,
-      vy: 0.2 + Math.random() * 0.3,
-      rot: (Math.random() - 0.5) * 0.8,
-      vr: (Math.random() - 0.5) * 0.012,
-      size: 14 + Math.random() * Math.min(12, speed * 0.5),
+      x: x + Math.cos(perp) * off,
+      y: y + Math.sin(perp) * off,
+      vx: (Math.random() - 0.5) * 0.15,
+      vy: 0.04 + Math.random() * 0.08,          // settles, doesn't fly
+      rot: walkDir + (Math.random() - 0.5) * 0.4,
+      size: 11 + Math.random() * Math.min(8, speed * 0.4),
       life: 1,
-      decay: 0.0045 + Math.random() * 0.0045,
+      decay: 0.004 + Math.random() * 0.004,
       seed: Math.random() * 1000
     });
+  }
+
+  // a small cloven hoof-print, pointing along local +x (forward)
+  function drawHoof(ctx, size, alpha) {
+    var s = size;
+    ctx.fillStyle = "rgba(" + INK_RGB + "," + alpha + ")";
+    for (var k = -1; k <= 1; k += 2) {          // two toes, splayed at the heel
+      ctx.save();
+      ctx.translate(0, k * s * 0.17);
+      ctx.rotate(k * 0.14);
+      ctx.beginPath();
+      ctx.moveTo(s * 0.5, 0);                    // pointed tip (forward)
+      ctx.bezierCurveTo(s * 0.18, s * 0.17, -s * 0.42, s * 0.12, -s * 0.42, 0);
+      ctx.bezierCurveTo(-s * 0.42, -s * 0.12, s * 0.18, -s * 0.17, s * 0.5, 0);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
   }
 
   // --- Ambient motes: dust drifting in the god-rays ------------------------
@@ -269,34 +289,23 @@
       }
     }
 
-    // 3) Glyphs — written in ink, then burning off as light.
-    lit.globalCompositeOperation = "lighter";
+    // 3) Hoof-prints — ink stamps on the paper that settle and fade.
     for (i = glyphs.length - 1; i >= 0; i--) {
       var g = glyphs[i];
-      var ang = flow(g.x, g.y, t + g.seed);
-      g.vx += Math.cos(ang) * 0.03;
-      g.vy += Math.sin(ang) * 0.03 - (g.life < 0.55 ? 0.06 : 0.012); // lifts as it ignites
-      g.vx *= 0.95; g.vy *= 0.95;
+      g.vx *= 0.9; g.vy *= 0.9;
       g.x += g.vx; g.y += g.vy;
-      g.rot += g.vr;
       g.life -= g.decay;
       if (g.life <= 0) { glyphs.splice(i, 1); continue; }
       var env = Math.sin((1 - g.life) * Math.PI);
-      var c = g.life > 0.55 ? ink : lit;
-      var col = g.life > 0.55
-        ? "rgba(" + INK_RGB + "," + (env * 0.5) + ")"
-        : "rgba(" + MID + "," + (env * 0.55) + ")";
-      c.save();
-      c.translate(g.x, g.y);
-      c.rotate(g.rot);
-      c.font = "italic " + g.size + "px 'EB Garamond', Georgia, serif";
-      c.fillStyle = col;
-      c.textAlign = "center";
-      c.fillText(g.ch, 0, 0);
-      c.restore();
+      ink.save();
+      ink.translate(g.x, g.y);
+      ink.rotate(g.rot);
+      drawHoof(ink, g.size, env * 0.52);
+      ink.restore();
     }
 
     // 4) Embers — dried ink risen into light.
+    lit.globalCompositeOperation = "lighter";
     for (i = 0; i < embers.length; i++) {
       var p = embers[i];
       if (p.life <= 0) continue;
