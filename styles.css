@@ -854,6 +854,71 @@ a.nav__mark { color: inherit; text-decoration: none; }
   color: var(--ink);
   margin: 0.9rem 0 0;
 }
+/* sign-up fine print (consent + privacy link) */
+.subscribe__fineprint {
+  font-family: var(--font-read);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin: 0.8rem 0 0;
+}
+.subscribe__fineprint a { color: var(--seal-deep); }
+
+/* ---------- Legal pages (Privacy, Terms) ---------- */
+.legal {
+  text-align: left;
+  max-width: 38rem;
+  margin: clamp(1.5rem, 4vh, 2.4rem) auto 0;
+}
+.legal h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: var(--ink-deep);
+  margin: 1.9rem 0 0.5rem;
+}
+.legal p, .legal li {
+  font-family: var(--font-read);
+  font-size: 1rem;
+  line-height: 1.72;
+  color: var(--ink);
+}
+.legal p { margin: 0 0 1rem; }
+.legal ul { padding-left: 1.2rem; margin: 0.2rem 0 1.1rem; }
+.legal li { margin: 0.25rem 0; }
+.legal a { color: var(--seal-deep); }
+.legal__updated {
+  font-family: var(--font-read);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.6rem;
+  color: var(--ink-soft);
+  margin: 0.3rem 0 0;
+}
+.legal__draft {
+  border: 1px solid var(--seal-deep);
+  background: rgba(179, 129, 47, 0.08);
+  padding: 0.85rem 1.1rem;
+  font-style: italic;
+  border-radius: 2px;
+  margin: 1.2rem 0 1.6rem;
+}
+
+/* footer legal links */
+.signoff__legal {
+  font-family: var(--font-read);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.6rem;
+  color: var(--ink-soft);
+  margin: 0.6rem 0 0;
+}
+.signoff__legal a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(47, 69, 56, 0.3);
+  padding-bottom: 1px;
+}
+.signoff__legal a:hover { color: var(--ink); }
 
 .visually-hidden {
   position: absolute;
