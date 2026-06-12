@@ -110,13 +110,12 @@ const subscribe = (title, note) => `
       <section class="subscribe reveal" id="subscribe" style="--d:1s">
         <h2 class="subscribe__title">${title}</h2>
         <p class="subscribe__note">${note}</p>
-        <!-- ESP stub: point this form at Kit / Buttondown / Beehiiv when chosen -->
         <form class="subscribe__form" action="#" method="post">
           <label class="visually-hidden" for="email">Email address</label>
           <input id="email" type="email" name="email" placeholder="your@email.com" required />
           <button class="seal-btn" type="submit">Subscribe</button>
         </form>
-        <p class="stub-note">Newsletter service connects here &mdash; Kit / Buttondown / Beehiiv</p>
+        <p class="stub-note">No noise, no spam &mdash; just the letters. Unsubscribe anytime.</p>
       </section>`;
 
 const tail = (extra = "") => `
@@ -133,6 +132,7 @@ const tail = (extra = "") => `
   <canvas id="light-layer" aria-hidden="true"></canvas>
   <script src="assets/paper.js" defer></script>
   <script src="assets/ink-light.js" defer></script>
+  <script src="assets/subscribe.js" defer></script>
   ${extra}
 </body>
 </html>`;

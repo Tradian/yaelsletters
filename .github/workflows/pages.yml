@@ -24,6 +24,10 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+      RESEND_FROM: ${{ secrets.RESEND_FROM }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,11 +43,18 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install
+        run: npm ci
+
       - name: Build letters & feed
-        run: |
-          npm ci
-          npm run build
-          rm -rf node_modules
+        run: npm run build
+
+      - name: Send new letters to subscribers (Resend)
+        if: ${{ env.RESEND_API_KEY != '' }}
+        run: node build/send-email.mjs
+
+      - name: Clean dev deps
+        run: rm -rf node_modules
 
       - name: Upload site
         uses: actions/upload-pages-artifact@v3

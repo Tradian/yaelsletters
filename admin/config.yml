@@ -68,6 +68,7 @@ collections:
         display_fields: [title]
         hint: "Leave blank for a standalone letter."
       - { name: part, label: "Part number (within the series)", widget: number, value_type: int, required: false, hint: "1, 2, 3… Only needed if it's in a series." }
+      - { name: email_send, label: "Send to subscribers when published", widget: boolean, default: false, hint: "Tick this when the letter is ready to email. Leave off for site-only, or while you're still editing." }
       - { name: seal, label: "Wax-seal letter", widget: string, default: "Y", required: false }
       - { name: draft, label: "Save as draft (don't publish yet)", widget: boolean, default: false }
       - { name: title_html, label: "Fancy title (optional)", widget: string, required: false, hint: "Advanced — leave blank unless you want custom line breaks/italics in the headline." }

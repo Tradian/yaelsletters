@@ -84,21 +84,33 @@ job; most days she only taps **Write a Letter**.
   successor). Yael taps *New Letter*, types, hits *Publish* → it commits the
   markdown → the site rebuilds → the letter appears in its envelope.
 
-### Auto-newsletter
-`feed.xml` carries each letter's full content. Point the email service
-(Kit / Buttondown / Beehiiv) at it as an **RSS broadcast** → publishing a
-letter emails it to subscribers automatically. No second step.
+### Newsletter — Resend, driven from this site
+Everything Yael pushes is a letter, so one action covers site + email:
+- **Sending:** the deploy runs `build/send-email.mjs` after the build. Any letter
+  with **“Send to subscribers”** ticked is emailed once via a Resend **Broadcast**.
+  Idempotent by broadcast name (`letter:<slug>`), so re-publishing/typo-fixes
+  never re-send. Guarded by `RESEND_API_KEY` — normal builds without the secret
+  send nothing.
+- **Sign-ups:** the forms POST to a tiny Cloudflare **Worker**
+  (`workers/subscribe-worker.js`) that adds the contact to the Resend audience
+  (a static page can't safely hold the key). `assets/subscribe.js` handles the
+  fetch + inline feedback. Books/merch are just letters that link to the store —
+  no separate type needed.
 
-### Two things to finish (one-time, needs the owner)
-1. **CMS login (GitHub OAuth):** deploy the free `sveltia-cms-auth`
-   Cloudflare Worker, create a GitHub OAuth app, then set `base_url` in
-   `admin/config.yml` to the worker URL. Add Yael + the second admin as repo
-   collaborators. (Until then `/admin/` loads but can't sign in.)
-2. **Pick the email service** and paste its RSS-broadcast + signup-form details;
-   the `<!-- ESP stub -->` forms and the Subscribers desk card get wired to it.
+### Setup to finish (one-time, needs the owner)
+1. **Resend:** account → **verify sending domain** (DNS) → create an Audience +
+   API key. See `workers/README.md`.
+2. **Subscribe Worker:** deploy `workers/subscribe-worker.js` (Cloudflare, free)
+   with `RESEND_API_KEY` + `RESEND_AUDIENCE_ID`; paste its URL into
+   `assets/subscribe.js` → `ENDPOINT`.
+3. **Repo secrets** (Settings → Secrets → Actions) for sending:
+   `RESEND_API_KEY`, `RESEND_AUDIENCE_ID`, `RESEND_FROM`.
+4. **CMS login (GitHub OAuth):** deploy `sveltia-cms-auth` (Cloudflare), create a
+   GitHub OAuth app, set `base_url` in `admin/config.yml`; add Yael + the second
+   admin as repo collaborators. (Until then `/admin/` loads but can't sign in.)
 
-Service dashboards (Comments, Subscribers, Donations, Books) are managed in
-each provider's own mobile app; the desk cards deep-link to them once chosen.
+Comments / Donations / Books are managed in each provider's own dashboard; the
+desk cards deep-link to them once chosen (Subscribers already points to Resend).
 
 ## Next step
 Wire the integrations (comments, storefront, Stripe/BMC, ESP) and merge to
