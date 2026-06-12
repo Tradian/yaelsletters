@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https:; form-action 'self' https:" />
   <title>Support — Yael's Letters</title>
   <meta name="description" content="Keep the lamp lit — ways to support the letters from the farm." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -77,6 +79,7 @@
         <form class="subscribe__form" action="#" method="post">
           <label class="visually-hidden" for="email">Email address</label>
           <input id="email" type="email" name="email" placeholder="your@email.com" required />
+          <input class="hp-field" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <button class="seal-btn" type="submit">Subscribe</button>
         </form>
         <p class="subscribe__fineprint">No spam, ever &mdash; unsubscribe anytime. By subscribing you agree to the <a href="privacy.html">Privacy&nbsp;Policy</a>.</p>

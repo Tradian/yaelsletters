@@ -178,7 +178,7 @@
       rot: walkDir + (Math.random() - 0.5) * 0.4,
       size: 11 + Math.random() * Math.min(8, speed * 0.4),
       life: 1,
-      decay: 0.004 + Math.random() * 0.004,
+      decay: 0.009 + Math.random() * 0.006,   // fades noticeably faster
       seed: Math.random() * 1000
     });
   }

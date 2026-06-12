@@ -854,6 +854,16 @@ a.nav__mark { color: inherit; text-decoration: none; }
   color: var(--ink);
   margin: 0.9rem 0 0;
 }
+/* honeypot — off-screen; real people never see or tab to it, bots fill it */
+.hp-field {
+  position: absolute !important;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* sign-up fine print (consent + privacy link) */
 .subscribe__fineprint {
   font-family: var(--font-read);
