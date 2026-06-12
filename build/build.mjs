@@ -147,6 +147,7 @@ function envelope(l, dateLabel) {
           <a class="envelope" href="letter-${l.slug}.html"
              aria-label="Open the letter: ${esc(l.title)} — ${esc(dateLabel)}">
             <span class="envelope__sheet" aria-hidden="true"></span>
+            <span class="envelope__transmit" aria-hidden="true"></span>
             <span class="envelope__flap" aria-hidden="true"></span>
             <span class="envelope__seal" aria-hidden="true">${esc(l.seal)}</span>
             <span class="envelope__addr">
