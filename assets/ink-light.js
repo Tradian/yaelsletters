@@ -58,7 +58,7 @@
 
   // --- The quill ribbon ----------------------------------------------------
   // Recent cursor points; drawn as a calligraphic stroke that evaporates.
-  var RIBBON_LIFE = 1100;          // ms before a point dries away
+  var RIBBON_LIFE = 800;           // ms before a point dries away
   var ribbon = [];                 // {x, y, t, w} — null marks a pen lift
 
   var pointer = { x: -1, y: -1, has: false };
@@ -77,7 +77,7 @@
     // hoof-prints stamp along the stroke — a goat walked across the page
     if (last && speed > 0.01) walkDir = Math.atan2(y - last.y, x - last.x);
     glyphCarry += speed;
-    if (glyphCarry > 75 && glyphs.length < 50) {
+    if (glyphCarry > 240 && glyphs.length < 50) {
       glyphCarry = 0;
       spawnGlyph(x, y, speed);
     }
@@ -256,7 +256,7 @@
       }
       alive.push(pt);
       if (prev) {
-        var a = (1 - age) * 0.5;
+        var a = (1 - age) * 0.28;
         ink.strokeStyle = "rgba(" + INK_RGB + "," + a + ")";
         ink.lineWidth = pt.w * (1 - age * 0.5);
         ink.lineCap = "round";
@@ -300,7 +300,7 @@
       ink.save();
       ink.translate(g.x, g.y);
       ink.rotate(g.rot);
-      drawHoof(ink, g.size, env * 0.52);
+      drawHoof(ink, g.size, env * 0.32);
       ink.restore();
     }
 
