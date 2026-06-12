@@ -185,14 +185,7 @@ body::after {
   /* line-art scan: drop the white ground so the goat sits on the cream stock */
   mix-blend-mode: multiply;
   filter: contrast(1.06) brightness(1.04);
-  transition: opacity 0.8s ease;
 }
-/* when the goat is drawn as live particles (assets/ink-light.js), retire the
-   static plate — its box stays, so layout and the quill-wisp origin are intact.
-   Reduced motion / no-canvas keeps the printed plate exactly as before. */
-.goat-particles .plate { border-color: transparent; }
-.goat-particles .plate::after { opacity: 0; }
-.goat-particles .plate__art { opacity: 0; }
 .plate__caption {
   margin: 0.5rem 0 0;
   font-family: var(--font-read);
