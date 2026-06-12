@@ -34,6 +34,18 @@ Set up Payhip so it can take payment and deliver the books:
 5. Publish, then copy the product link.
 6. Do the same for the second book, and **send me both links**. I'll paste them in and your buttons go live.
 
+## ◈ Anything you've already got? Send it my way
+You mentioned you have other materials — wonderful, that's exactly what fills the
+site out. If you have any of these, send what you've got and I'll slot them in
+cleanly (don't worry about sizing or formatting):
+
+- **The ebook files** (PDF or EPUB) — these are what Payhip sells and delivers
+- **Cover art** for each book — I'll place it and it appears automatically
+- **A short blurb** for each book (a paragraph) and the **prices**
+- **A photo of you** and a few lines of **bio** — for the About page
+- Any **reader notes or endorsements** you'd like to feature
+- A **logo**, and your **Facebook / contact links**
+
 ## ◇ A couple of small decisions (no rush)
 - **Paper copies?** If you want print, we use print-on-demand — nothing ships from your home. Or we skip it.
 - **The people who already pre-paid** — how would you like to get them their copy? I have two easy options ready.

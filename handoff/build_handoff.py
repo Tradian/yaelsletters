@@ -77,6 +77,19 @@ def build_docx():
         "Do the same for the second book, and send me both links. I'll paste them in and your buttons go live.",
     ]: bullet(t, style="List Number")
 
+    heading("◈  Anything you've already got? Send it my way")
+    para("You mentioned you have other materials — wonderful, that's exactly what fills "
+         "the site out. If you have any of these, send what you've got and I'll slot them "
+         "in cleanly (don't worry about sizing or formatting):", space=4)
+    for t in [
+        "The ebook files (PDF or EPUB) — these are what Payhip sells and delivers",
+        "Cover art for each book — I'll place it and it appears automatically",
+        "A short blurb for each book (a paragraph) and the prices",
+        "A photo of you and a few lines of bio — for the About page",
+        "Any reader notes or endorsements you'd like to feature",
+        "A logo, and your Facebook / contact links",
+    ]: bullet(t)
+
     heading("◇  A couple of small decisions (no rush)")
     for t in [
         "Paper copies? If you want print, we use print-on-demand — nothing ships from your home. Or we skip it.",
@@ -184,6 +197,27 @@ def build_xlsx():
         ["Stripe donation link (optional)", "", "Parked for now"],
     ]
     write_sheet(ws3, h3, r3, [32, 44, 34])
+
+    # ---- Assets to gather ----
+    ws4 = wb.create_sheet("Assets to gather")
+    h4 = ["Asset", "Where it goes on the site", "Format / spec", "Received?", "Notes"]
+    r4 = [
+        ["'Letters from the Hill' ebook file", "Uploaded to Payhip (sold + delivered)", "PDF or EPUB", "No", "The actual book"],
+        ["'Before the Rooster' ebook file", "Uploaded to Payhip (sold + delivered)", "PDF or EPUB", "No", ""],
+        ["'Letters from the Hill' cover art", "assets/covers/letters-from-the-hill.jpg", "Portrait ~448x624px (2x), JPEG/WebP", "No", "Drops in automatically"],
+        ["'Before the Rooster' cover art", "assets/covers/before-the-rooster.jpg", "Portrait ~448x624px (2x), JPEG/WebP", "No", "Drops in automatically"],
+        ["Book blurb — Letters from the Hill", "Book page + Payhip description", "A paragraph of text", "No", ""],
+        ["Book blurb — Before the Rooster", "Book page + Payhip description", "A paragraph of text", "No", ""],
+        ["Prices (per book)", "store.js + Payhip", "e.g. $4.99", "No", ""],
+        ["Photo of Yael", "About page", "Landscape or portrait, good res", "No", ""],
+        ["Short bio / 'about Yael'", "About page", "A few sentences", "No", ""],
+        ["Reader notes / endorsements", "Books or home (optional feature)", "Short quotes + names", "No", ""],
+        ["Logo / wordmark", "Site branding / favicon", "PNG/SVG, transparent", "No", "Optional"],
+        ["Facebook / contact links", "Footer links", "URLs", "No", ""],
+    ]
+    write_sheet(ws4, h4, r4, [34, 38, 30, 11, 26])
+    dv4 = DataValidation(type="list", formula1='"No,Received,N/A"', allow_blank=True)
+    ws4.add_data_validation(dv4); dv4.add(f"D2:D{len(r4)+1}")
 
     out = os.path.join(HERE, "yaels-letters-tracker.xlsx"); wb.save(out); return out
 
