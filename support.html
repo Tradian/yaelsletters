@@ -53,8 +53,8 @@
       </article>
 
       <div class="actions reveal" style="--d:.8s">
-        <!-- Buy Me a Coffee stub: replace href with the BMC page when created -->
-        <a class="seal-btn" href="#">
+        <!-- Links come from assets/store.js (donate.buymeacoffee / donate.stripe) -->
+        <a class="seal-btn" data-donate="buymeacoffee" href="#">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <circle cx="12" cy="12" r="9" stroke="#fbf4df" stroke-width="1.5"/>
             <path d="M8.5 12.5 11 15 16 9.5" stroke="#fbf4df" stroke-width="1.6"
@@ -62,10 +62,9 @@
           </svg>
           Buy Yael a coffee
         </a>
-        <!-- Stripe donation stub: replace href with the Stripe payment link -->
-        <a class="penlink" href="#">Give another way</a>
+        <a class="penlink" data-donate="stripe" href="#">Give another way</a>
       </div>
-      <p class="stub-note reveal" style="--d:.85s">Buy Me a Coffee + Stripe donations connect here</p>
+      <p class="stub-note reveal" style="--d:.85s" data-store-note>Buy Me a Coffee + Stripe donations connect here</p>
 
       <ul class="ways reveal" style="--d:.95s">
         <li>No money to spare? Send a letter to someone who needs it &mdash; that helps most of all.</li>
@@ -101,6 +100,7 @@
   <canvas id="light-layer" aria-hidden="true"></canvas>
   <script src="assets/paper.js" defer></script>
   <script src="assets/ink-light.js" defer></script>
+  <script src="assets/store.js" defer></script>
   <script src="assets/subscribe.js" defer></script>
 </body>
 </html>

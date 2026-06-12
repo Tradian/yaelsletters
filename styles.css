@@ -1086,6 +1086,14 @@ a.nav__mark { color: inherit; text-decoration: none; }
   color: var(--ink);
   margin: 0.9rem 0 0;
 }
+/* storefront/donation buttons that have no link yet — visible but quiet */
+.seal-btn.is-soon,
+.penlink.is-soon {
+  opacity: 0.45;
+  cursor: default;
+  pointer-events: none;
+}
+
 /* honeypot — off-screen; real people never see or tab to it, bots fill it */
 .hp-field {
   position: absolute !important;
