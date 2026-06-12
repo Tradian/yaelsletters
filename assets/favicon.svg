@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- a pressed wax seal: gold blob, deckled edge, Yael's initial -->
+  <path fill="#b3812f" d="M32 3.5c6.8-.9 13.2 1.9 18 6.2 4.6 4.1 8.3 9.8 8.6 16 .3 6.5-2.2 13-6.4 18.2-4.3 5.3-10.3 9.8-17.2 10.5-7 .7-14-2.4-19.2-7-5-4.5-8.6-10.9-8.5-17.6.1-6.5 3.6-12.6 8.2-17.2C20.1 8 25.7 4.4 32 3.5z"/>
+  <path fill="none" stroke="#8a6220" stroke-width="1.6" d="M32 9.2c5.3-.7 10.4 1.6 14.2 5 3.7 3.3 6.6 7.9 6.8 12.9.2 5.2-1.8 10.4-5.2 14.6-3.4 4.2-8.2 7.8-13.7 8.4-5.6.6-11.2-1.9-15.3-5.6-4-3.6-6.9-8.7-6.8-14 .1-5.2 2.9-10.1 6.6-13.8 3.6-3.6 8.3-6.8 13.4-7.5z" opacity=".55"/>
+  <text x="32" y="44.5" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-style="italic" text-anchor="middle" fill="#fbf4df">Y</text>
+</svg>
