@@ -1,10 +1,11 @@
 name: Deploy to GitHub Pages
 
-# Publishes the live site. Runs on every push to main, and can be triggered by
-# hand from the Actions tab.
+# Publishes the live site. Deploys on push to main (the live branch). The
+# working branch is kept as a temporary deploy source during the go-live
+# transition — remove it once "main" is the repo's default branch.
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "claude/gifted-keller-lbwTO"]
   workflow_dispatch:
 
 # Permissions the deploy-pages action needs
