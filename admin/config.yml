@@ -5,7 +5,7 @@ backend:
   name: github
   repo: Tradian/yaelsletters
   branch: claude/gifted-keller-lbwTO   # ← change to "main" once the site is merged
-  # base_url: https://<your-oauth-worker>   # ← set after the one-time login setup (see README)
+  # base_url: https://<your-oauth-worker>   # ← set after the one-time login setup (see SETUP-LOGIN.md)
 
 site_url: https://tradian.github.io/yaelsletters
 display_url: https://tradian.github.io/yaelsletters

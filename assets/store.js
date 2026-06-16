@@ -16,8 +16,9 @@ window.STORE = {
     stripe: ""
   },
   books: {
-    // Each book's checkout/product page on your seller (Payhip, Gumroad, …).
-    // The key matches the page's data-book value.
+    // Each book's product page on your seller. Ko-fi Shop is the chosen channel
+    // (sells + auto-delivers the PDF/ebook via Stripe). The key matches the
+    // page's data-book value.
     "letters-from-the-hill": { ebook: "", paper: "" },
     "before-the-rooster":   { ebook: "", paper: "" }
   }
