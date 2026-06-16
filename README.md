@@ -6,7 +6,7 @@ Faith-and-farm letters, books, support, and a newsletter.
 **Status:** Full static draft, awaiting first review. All sections from the
 brief are built as pages with sample copy and clearly-marked integration
 stubs (Decap blog, Gumroad/Payhip storefront, BMC/Stripe support, ESP
-newsletter, hosted comments). Live preview deploys from this branch via
+newsletter, hosted comments). The live site deploys from `main` via
 GitHub Pages.
 
 | Page | File |
@@ -113,5 +113,6 @@ Comments / Donations / Books are managed in each provider's own dashboard; the
 desk cards deep-link to them once chosen (Subscribers already points to Resend).
 
 ## Next step
-Wire the integrations (comments, storefront, Stripe/BMC, ESP) and merge to
-`main`, updating `admin/config.yml` `branch: main`.
+Live on `main` (GitHub Pages, deploys on push). Remaining: finish Yael's login
+(`SETUP-LOGIN.md`), wire the Ko-fi links when ready, and add a custom domain
+when chosen (drop a `CNAME` + DNS — no code changes).
