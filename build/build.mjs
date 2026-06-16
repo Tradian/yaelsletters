@@ -25,6 +25,24 @@ const SITE = "https://tradian.github.io/yaelsletters";
 
 marked.setOptions({ mangle: false, headerIds: false });
 
+/* Images in a letter become framed figures; the alt text becomes a caption.
+   A title of "margin" / "margin-left" / "margin-right" floats it into the
+   margin as marginalia — write  ![a little sketch](image.png "margin")  */
+marked.use({
+  renderer: {
+    image(href, title, text) {
+      const safe = esc(text || "");
+      if (title === "margin" || title === "margin-left" || title === "margin-right") {
+        const side = title === "margin-left" ? "left" : "right";
+        return `<figure class="marginalia marginalia--${side}"><img src="${href}" alt="${safe}" loading="lazy" decoding="async"></figure>`;
+      }
+      const cap = text ? `<figcaption>${safe}</figcaption>` : "";
+      return `<figure class="letterfig"><img src="${href}" alt="${safe}" loading="lazy" decoding="async">${cap}</figure>`;
+    },
+  },
+});
+
+
 const MONTHS = ["January","February","March","April","May","June","July",
   "August","September","October","November","December"];
 

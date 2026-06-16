@@ -685,6 +685,51 @@ a.nav__mark { color: inherit; text-decoration: none; }
 }
 .letterbody .signature { text-align: right; margin-top: 1.6rem; }
 
+/* images in a letter — framed like a pasted-in print, alt becomes a caption */
+.letterbody p:empty { display: none; }   /* marked wraps block images in a stray <p> */
+.letterfig {
+  margin: clamp(1.8rem, 5vh, 2.6rem) 0;
+  text-align: center;
+}
+.letterfig img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--ink);
+  padding: 0.4rem;
+  background: rgba(255, 252, 240, 0.6);
+  box-shadow: 0 14px 28px rgba(27, 41, 31, 0.16);
+}
+.letterfig figcaption {
+  margin-top: 0.6rem;
+  font-family: var(--font-read);
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+/* marginalia — a little sketch tucked into the margin (a true margin on wide
+   screens; gracefully inline and centered on narrow ones) */
+.marginalia { margin: 0.6rem auto; text-align: center; }
+.marginalia img {
+  width: 8.5rem;
+  max-width: 60%;
+  height: auto;
+  opacity: 0.95;
+  filter: saturate(0.96);
+}
+@media (min-width: 56rem) {
+  .marginalia {
+    width: 11rem;
+    margin: 0.2rem 0;
+  }
+  .marginalia img { width: 11rem; max-width: none; }
+  .marginalia--right { float: right; clear: right; margin-left: 1.8rem; transform: rotate(1.4deg); }
+  .marginalia--left  { float: left;  clear: left;  margin-right: 1.8rem; transform: rotate(-1.4deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marginalia--right, .marginalia--left { transform: none; }
+}
+
 /* Moderated comments — quiet, by invitation */
 .comments {
   margin: var(--rhythm) auto 0;

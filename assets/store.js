@@ -8,7 +8,9 @@
 
 window.STORE = {
   donate: {
-    // Your Buy Me a Coffee page, e.g. "https://buymeacoffee.com/yaelsletters"
+    // Your Ko-fi page (leads), e.g. "https://ko-fi.com/yaelsletters"
+    kofi: "",
+    // Optional Buy Me a Coffee page, e.g. "https://buymeacoffee.com/yaelsletters"
     buymeacoffee: "",
     // Optional Stripe Payment Link, e.g. "https://buy.stripe.com/xxxxxxxx"
     stripe: ""
