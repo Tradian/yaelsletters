@@ -1090,6 +1090,13 @@ a.nav__mark { color: inherit; text-decoration: none; }
   color: var(--ink);
   margin: 0 0 1.3rem;
 }
+.book-hero__free {
+  margin: 1rem 0 0;
+  font-family: var(--font-read);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
 .book-hero .actions { justify-content: flex-start; gap: 0.9rem; }
 
 /* Look inside — a few leaves, for a taste */

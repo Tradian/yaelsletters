@@ -9,18 +9,19 @@
 window.STORE = {
   donate: {
     // Your Ko-fi page (leads), e.g. "https://ko-fi.com/yaelsletters"
-    kofi: "",
+    kofi: "https://ko-fi.com/yaelsletters",
     // Optional Buy Me a Coffee page, e.g. "https://buymeacoffee.com/yaelsletters"
     buymeacoffee: "",
     // Optional Stripe Payment Link, e.g. "https://buy.stripe.com/xxxxxxxx"
     stripe: ""
   },
   books: {
-    // Each book's product page on your seller. Ko-fi Shop is the chosen channel
-    // (sells + auto-delivers the PDF/ebook via Stripe). The key matches the
-    // page's data-book value.
-    "letters-from-the-hill": { ebook: "", paper: "" },
-    "before-the-rooster":   { ebook: "", paper: "" }
+    // Each book's links by data-buy key. The key matches the page's data-book.
+    //   amazon = print edition · pdf = free download link
+    "counting-of-the-omer-2026": {
+      amazon: "https://a.co/d/071AmAsR",
+      pdf: ""   // ← paste the public Google Drive PDF link to switch it on
+    }
   }
 };
 
