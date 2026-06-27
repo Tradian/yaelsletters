@@ -20,7 +20,7 @@ window.STORE = {
     //   amazon = print edition · pdf = free download link
     "counting-of-the-omer-2026": {
       amazon: "https://a.co/d/071AmAsR",
-      pdf: ""   // ← paste the public Google Drive PDF link to switch it on
+      pdf: "https://drive.google.com/file/d/1dEZ1BckmI18cIQ7dz9EAumIpLDDTqSHS/view?usp=sharing"
     }
   }
 };
