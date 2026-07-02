@@ -12,7 +12,8 @@
 (function () {
   "use strict";
 
-  var ENDPOINT = "";            // ← your subscribe Worker URL
+  var SUBSTACK = "https://yaelsletters.substack.com";  // ← the Substack; "" to disable
+  var ENDPOINT = "";            // ← optional: self-hosted subscribe Worker URL
   var TURNSTILE_SITEKEY = "";   // ← optional: Cloudflare Turnstile site key
 
   var forms = Array.prototype.slice.call(document.querySelectorAll(".subscribe__form"));
@@ -54,6 +55,16 @@
 
       // honeypot: if a bot filled the hidden field, quietly pretend success
       if (hp && hp.value) { message(form, "Thank you — you're all set."); form.reset(); return; }
+
+      // Substack carries the list: hand the reader to its subscribe page with
+      // their email pre-filled, in a new tab so the letter they were reading stays.
+      if (SUBSTACK) {
+        var url = SUBSTACK.replace(/\/$/, "") + "/subscribe?email=" + encodeURIComponent(email);
+        window.open(url, "_blank", "noopener");
+        message(form, "Finishing on Substack — confirm there and you're on the list.");
+        form.reset();
+        return;
+      }
 
       if (!ENDPOINT) {
         message(form, "Sign-ups open very soon — thank you for your patience.");

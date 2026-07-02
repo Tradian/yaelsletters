@@ -99,7 +99,9 @@ for (const s of series) {
 const standalone = letters.filter((l) => !l.series);
 
 // --- shared chunks -------------------------------------------------------
-const head = (title, desc) => `<!DOCTYPE html>
+// page: the output filename ("" for pages without a canonical URL yet);
+// ogType: "article" for letters. Social cards fall back to the branded seal card.
+const head = (title, desc, page = "", ogType = "website") => `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -111,7 +113,20 @@ const head = (title, desc) => `<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Pinyon+Script&display=swap" rel="stylesheet" />
-  <link rel="alternate" type="application/rss+xml" title="Yael's Letters" href="feed.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Yael's Letters" href="feed.xml" />${page ? `
+  <link rel="canonical" href="${SITE}/${page}" />
+  <meta property="og:site_name" content="Yael's Letters" />
+  <meta property="og:type" content="${ogType}" />
+  <meta property="og:url" content="${SITE}/${page}" />
+  <meta property="og:title" content="${esc(title)}" />
+  <meta property="og:description" content="${esc(desc)}" />
+  <meta property="og:image" content="${SITE}/assets/og-card.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${esc(title)}" />
+  <meta name="twitter:description" content="${esc(desc)}" />
+  <meta name="twitter:image" content="${SITE}/assets/og-card.jpg" />` : ""}
   <meta name="theme-color" content="#f1e9d2" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="stylesheet" href="styles.css" />
@@ -207,7 +222,7 @@ function letterPage(l) {
   } else {
     kicker = `A letter &middot; ${l.monthYear}`;
   }
-  return `${head(`${l.title} — Yael's Letters`, l.excerpt)}
+  return `${head(`${l.title} — Yael's Letters`, l.excerpt, `letter-${l.slug}.html`, "article")}
 <body>
   <div class="page">
 ${nav("letters")}
@@ -241,7 +256,7 @@ ${tail()}`;
 function seriesPage(s) {
   const items = s.letters.map((l) => envelope(l, `Part ${l.part ?? s.letters.indexOf(l) + 1} &middot; ${l.monthYear}`)).join("\n\n");
   const empty = `<p class="page-lede reveal" style="--d:.8s">The first letter in this series is on its way.</p>`;
-  return `${head(`${s.title} — Yael's Letters`, s.description)}
+  return `${head(`${s.title} — Yael's Letters`, s.description, `series-${s.slug}.html`)}
 <body>
   <div class="page">
 ${nav("letters")}
@@ -269,7 +284,7 @@ function lettersIndex() {
   ].sort((a, b) => b.date - a.date);
   const list = entries.map((e) => e.html).join("\n\n");
   const empty = `<p class="page-lede reveal" style="--d:.8s">The first letter is on its way.</p>`;
-  return `${head("The Letters — Yael's Letters", "Every letter, gathered in one quiet place — newest first.")}
+  return `${head("The Letters — Yael's Letters", "Every letter, gathered in one quiet place — newest first.", "letters.html")}
 <body>
   <div class="page">
 ${nav("letters")}
@@ -325,6 +340,18 @@ for (const l of letters) writeFileSync(join(ROOT, `letter-${l.slug}.html`), lett
 for (const s of series) writeFileSync(join(ROOT, `series-${s.slug}.html`), seriesPage(s));
 writeFileSync(join(ROOT, "letters.html"), lettersIndex());
 writeFileSync(join(ROOT, "feed.xml"), feed());
+
+// --- sitemap ---------------------------------------------------------------
+const staticPages = ["", "letters.html", "books.html", "book-counting-of-the-omer.html",
+  "support.html", "about.html", "privacy.html", "terms.html"];
+const urls = [
+  ...staticPages.map((p) => `${SITE}/${p}`),
+  ...letters.map((l) => `${SITE}/letter-${l.slug}.html`),
+  ...series.map((sr) => `${SITE}/series-${sr.slug}.html`),
+];
+writeFileSync(join(ROOT, "sitemap.xml"),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+  urls.map((u) => `  <url><loc>${u}</loc></url>`).join("\n") + `\n</urlset>\n`);
 
 console.log(`Built ${letters.length} letter(s), ${series.length} series.`);
 console.log(`  standalone: ${standalone.map((l) => l.slug).join(", ") || "(none)"}`);
