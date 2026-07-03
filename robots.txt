@@ -1,7 +1,14 @@
+# PRE-LAUNCH: the whole site is held back from search engines while the
+# cover page is up. ON LAUNCH DAY swap this file's contents for the block
+# at the bottom (and swap index.html <-> home.html).
 User-agent: *
-Allow: /
-Disallow: /desk.html
-Disallow: /store-preview.html
-Disallow: /admin/
+Disallow: /
 
-Sitemap: https://tradian.github.io/yaelsletters/sitemap.xml
+# --- launch-day robots.txt (copy over the block above) ---
+# User-agent: *
+# Allow: /
+# Disallow: /desk.html
+# Disallow: /store-preview.html
+# Disallow: /admin/
+#
+# Sitemap: https://tradian.github.io/yaelsletters/sitemap.xml
