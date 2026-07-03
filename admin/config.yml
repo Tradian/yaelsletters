@@ -19,6 +19,80 @@ public_folder: assets/uploads
 publish_mode: editorial_workflow
 
 collections:
+  # ── Books ──────────────────────────────────────────────────────────────────
+  - name: books
+    label: Books
+    label_singular: Book
+    description: "Your books. Add one when it's ready — cover art is placed for you; paste the Amazon / free-PDF links and the buttons go live."
+    folder: content/books
+    create: true
+    delete: true
+    identifier_field: title
+    slug: "{{fields.slug}}"
+    summary: "{{title}}"
+    sortable_fields: [order, title]
+    fields:
+      - { name: title, label: "Title", widget: string, hint: "e.g. Counting of the Omer 2026" }
+      - { name: slug, label: "Web address", widget: string, hint: "Short, lowercase, dashes — e.g. counting-of-the-omer-2026" }
+      - { name: kicker, label: "Small line above the title on the cover", widget: string, required: false, hint: "e.g. A Daily Devotional · 2026" }
+      - { name: status, label: "Status line", widget: string, default: "Out now", required: false }
+      - { name: author, label: "Author", widget: string, default: "Yael", required: false }
+      - { name: cover_title, label: "Title as it wraps on the little cover", widget: text, required: false, hint: "Press Enter where the line should break." }
+      - { name: spine_title, label: "Title on the spine", widget: string, required: false }
+      - { name: shelf_note, label: "Note under the book on the shelf", widget: string, required: false, hint: "e.g. Free PDF · or in print" }
+      - { name: blurb, label: "One-paragraph blurb", widget: text }
+      - { name: amazon, label: "Amazon link (print)", widget: string, required: false, hint: "Paste it and the button goes live; leave blank for a quiet 'soon'." }
+      - { name: pdf, label: "Free PDF link", widget: string, required: false }
+      - { name: free_note, label: "Free-to-read note", widget: string, required: false, default: "Free to read, always — the Word was never meant to sit behind a paywall." }
+      - { name: closing, label: "Closing line", widget: string, required: false }
+      - { name: body, label: "About this book", widget: markdown, hint: "A couple of paragraphs for the book's page." }
+      - { name: published, label: "Show on the site", widget: boolean, default: true }
+      - { name: order, label: "Shelf order", widget: number, value_type: int, default: 1, required: false }
+
+  # ── Pages ──────────────────────────────────────────────────────────────────
+  - name: pages
+    label: Pages
+    description: "The words on the About, Support, and Books pages."
+    editor:
+      preview: false
+    files:
+      - name: about
+        label: "About page"
+        file: content/pages/about.md
+        fields:
+          - { name: kicker, label: "Small line up top", widget: string }
+          - { name: title_html, label: "Page title", widget: string, hint: "Advanced: <em>…</em> makes a word italic." }
+          - { name: lede, label: "Intro line", widget: text }
+          - { name: caption, label: "Caption under the goat", widget: string }
+          - { name: body, label: "The letter itself", widget: markdown }
+          - { name: subscribe_title, label: "Subscribe box title", widget: string }
+          - { name: subscribe_note, label: "Subscribe box note", widget: string }
+      - name: support
+        label: "Support page"
+        file: content/pages/support.md
+        fields:
+          - { name: kicker, label: "Small line up top", widget: string }
+          - { name: title_html, label: "Page title", widget: string, hint: "Advanced: <em>…</em> makes a word italic." }
+          - { name: body, label: "Your note to readers", widget: markdown }
+          - { name: kofi, label: "Ko-fi link", widget: string, required: false, hint: "e.g. https://ko-fi.com/yaelsletters — blank hides it politely." }
+          - { name: stripe, label: "'Give another way' link", widget: string, required: false }
+          - { name: ways, label: "Other ways to help (list)", widget: list, required: false }
+          - { name: subscribe_title, label: "Subscribe box title", widget: string }
+          - { name: subscribe_note, label: "Subscribe box note", widget: string }
+      - name: books
+        label: "Books page (the shelf)"
+        file: content/pages/books.md
+        fields:
+          - { name: kicker, label: "Small line up top", widget: string }
+          - { name: title_html, label: "Page title", widget: string, hint: "Advanced: <em>…</em> makes a word italic." }
+          - { name: lede, label: "Intro line", widget: text }
+          - { name: show_coming_soon, label: "Show a 'coming soon' book on the shelf", widget: boolean, default: true }
+          - { name: coming_caption, label: "Coming-soon caption", widget: string, required: false }
+          - { name: coming_note, label: "Coming-soon small note", widget: string, required: false }
+          - { name: subscribe_title, label: "Subscribe box title", widget: string }
+          - { name: subscribe_note, label: "Subscribe box note", widget: string }
+          - { name: body, label: "(unused)", widget: hidden, required: false, default: "" }
+
   # ── Settings ───────────────────────────────────────────────────────────────
   - name: settings
     label: Settings

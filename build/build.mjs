@@ -101,7 +101,7 @@ const standalone = letters.filter((l) => !l.series);
 // --- shared chunks -------------------------------------------------------
 // page: the output filename ("" for pages without a canonical URL yet);
 // ogType: "article" for letters. Social cards fall back to the branded seal card.
-const head = (title, desc, page = "", ogType = "website") => `<!DOCTYPE html>
+const head = (title, desc, page = "", ogType = "website", img = `${SITE}/assets/og-card.jpg`) => `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -120,13 +120,13 @@ const head = (title, desc, page = "", ogType = "website") => `<!DOCTYPE html>
   <meta property="og:url" content="${SITE}/${page}" />
   <meta property="og:title" content="${esc(title)}" />
   <meta property="og:description" content="${esc(desc)}" />
-  <meta property="og:image" content="${SITE}/assets/og-card.jpg" />
+  <meta property="og:image" content="${img}" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${esc(title)}" />
   <meta name="twitter:description" content="${esc(desc)}" />
-  <meta name="twitter:image" content="${SITE}/assets/og-card.jpg" />` : ""}
+  <meta name="twitter:image" content="${img}" />` : ""}
   <meta name="theme-color" content="#f1e9d2" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="stylesheet" href="styles.css" />
@@ -334,20 +334,249 @@ ${items}
 </rss>`;
 }
 
+
+// --- editable pages & books (content/pages/*.md, content/books/*.md) -------
+// Yael edits these from /admin/ (Pages + Books collections); the build renders
+// them into the real pages. Buy/donate links: live when a URL exists, a quiet
+// "soon" state until then.
+const PAGES_DIR = join(ROOT, "content", "pages");
+const BOOKS_DIR = join(ROOT, "content", "books");
+
+function pageData(name) {
+  const f = join(PAGES_DIR, name + ".md");
+  if (!existsSync(f)) return null;
+  const { data, content } = matter(readFileSync(f, "utf8"));
+  return { ...data, bodyHtml: marked.parse((content || "").trim()) };
+}
+
+const books = readDir(BOOKS_DIR).map(({ file, data, content }) => ({
+  slug: data.slug || file.replace(/\.md$/, ""),
+  title: data.title || "Untitled",
+  kicker: data.kicker || "",
+  status: data.status || "Out now",
+  author: data.author || "Yael",
+  coverTitle: String(data.cover_title || data.title || "").split("\n").map(esc).join("<br/>"),
+  spineTitle: data.spine_title || data.title || "",
+  shelfNote: data.shelf_note || "",
+  blurb: data.blurb || "",
+  amazon: data.amazon || "",
+  pdf: data.pdf || "",
+  freeNote: data.free_note || "",
+  closing: data.closing || "",
+  published: data.published !== false,
+  order: Number.isFinite(data.order) ? data.order : 0,
+  bodyHtml: marked.parse((content || "").trim()),
+})).filter((b) => b.published).sort((a, b) => a.order - b.order);
+
+const buyLink = (href, cls, label) => href
+  ? `<a class="${cls}" href="${esc(href)}" target="_blank" rel="noopener">${label}</a>`
+  : `<a class="${cls} is-soon" aria-disabled="true" title="Available soon">${label}</a>`;
+
+function bookPage(b) {
+  const cover = `assets/covers/${b.slug}.jpg`;
+  return `${head(`${b.title} — Yael's Letters`, b.blurb, `book-${b.slug}.html`, "book", `${SITE}/${cover}`)}
+<body>
+  <div class="page">
+${nav("books")}
+    <main class="inner">
+
+      <a class="book-back reveal" style="--d:.25s" href="books.html">&larr; Back to the shelf</a>
+
+      <div class="book-hero reveal" style="--d:.4s">
+        <div class="book-cover" data-cover="${cover}" data-cover-alt="Cover — ${esc(b.title)}">
+          <p class="book-cover__kicker">${esc(b.kicker)}</p>
+          <h1 class="book-cover__title">${b.coverTitle}</h1>
+          <span class="book-cover__rule"></span>
+          <p class="book-cover__author">${esc(b.author)}</p>
+        </div>
+        <div class="book-hero__info">
+          <p class="book-hero__kicker">${esc(b.status)}</p>
+          <p class="book-hero__title">${esc(b.title)}</p>
+          <p class="book-hero__author">by ${esc(b.author)}</p>
+          <p class="book-hero__about">${esc(b.blurb)}</p>
+          <div class="actions">
+            ${buyLink(b.amazon, "seal-btn", "Get the print edition")}
+            ${buyLink(b.pdf, "penlink", "Read the free PDF")}
+          </div>
+          ${b.freeNote ? `<p class="book-hero__free">${esc(b.freeNote)}</p>` : ""}
+        </div>
+      </div>
+
+      <section class="preview reveal" style="--d:.6s">
+        <p class="preview__label">About this book</p>
+        <article class="leaf">
+${b.bodyHtml}
+        </article>
+        ${b.closing ? `<p class="preview__close">${esc(b.closing)}</p>` : ""}
+      </section>
+${subscribe("Hear when the next book is ready", "Another is already underway. Subscribers always know first.")}
+    </main>
+${tail(`<script src="assets/cover.js" defer></script>`)}`;
+}
+
+function booksIndex() {
+  const pg = pageData("books") || {};
+  const vols = books.map((b, i) => `
+        <article class="book3d ${i % 2 === 0 ? "book3d--cloth" : "book3d--cream"}">
+          <a class="book3d__link" href="book-${b.slug}.html" aria-label="Open: ${esc(b.title)}">
+            <span class="book3d__case">
+              <span class="book3d__face book3d__back" aria-hidden="true"></span>
+              <span class="book3d__face book3d__pages" aria-hidden="true"></span>
+              <span class="book3d__face book3d__spine" aria-hidden="true">
+                <span class="spine-title">${esc(b.spineTitle)}</span>
+                <span class="spine-seal">Y</span>
+              </span>
+              <span class="book3d__face book3d__front" data-cover="assets/covers/${b.slug}.jpg">
+                <span class="cover-kicker">${esc(b.kicker)}</span>
+                <span class="cover-title">${b.coverTitle}</span>
+                <span class="cover-rule"></span>
+                <span class="cover-author">${esc(b.author)}</span>
+                <span class="cover-sheen" aria-hidden="true"></span>
+              </span>
+            </span>
+          </a>
+          <span class="book3d__shadow" aria-hidden="true"></span>
+          <p class="book3d__caption">${esc(b.title)} <span>${esc(b.shelfNote)} &rarr;</span></p>
+        </article>`).join("\n");
+
+  const coming = pg.show_coming_soon === false ? "" : `
+        <article class="book3d ${books.length % 2 === 0 ? "book3d--cloth" : "book3d--cream"}">
+          <span class="book3d__link" aria-label="Another book — coming soon">
+            <span class="book3d__case">
+              <span class="book3d__face book3d__back" aria-hidden="true"></span>
+              <span class="book3d__face book3d__pages" aria-hidden="true"></span>
+              <span class="book3d__face book3d__spine" aria-hidden="true">
+                <span class="spine-title">Coming soon</span>
+                <span class="spine-seal">Y</span>
+              </span>
+              <span class="book3d__face book3d__front">
+                <span class="cover-kicker">The next one</span>
+                <span class="cover-title">Coming<br/>soon</span>
+                <span class="cover-rule"></span>
+                <span class="cover-author">Yael</span>
+                <span class="cover-sheen" aria-hidden="true"></span>
+              </span>
+            </span>
+          </span>
+          <span class="book3d__shadow" aria-hidden="true"></span>
+          <p class="book3d__caption">${esc(pg.coming_caption || "More on the way")} <span>${esc(pg.coming_note || "another book — soon")}</span></p>
+        </article>`;
+
+  return `${head("Books — Yael's Letters", pg.lede || "Yael's books — bound and kept.", "books.html")}
+<body>
+  <div class="page">
+${nav("books")}
+    <main class="inner">
+
+      <p class="kicker reveal" style="--d:.3s">${esc(pg.kicker || "Bound and kept")}</p>
+      <h1 class="page-title reveal" style="--d:.45s">${pg.title_html || "The <em>Books</em>"}</h1>
+      <p class="page-lede reveal" style="--d:.6s">${esc(pg.lede || "")}</p>
+
+      <div class="bookcase reveal" style="--d:.8s">
+${vols}
+${coming}
+      </div>
+      <p class="bookcase__hint reveal" style="--d:.9s">Turn a book in your hand</p>
+${subscribe(esc(pg.subscribe_title || "Hear when a new book is ready"), esc(pg.subscribe_note || "Subscribers always know first."))}
+    </main>
+${tail(`<script src="assets/books3d.js" defer></script>`)}`;
+}
+
+function aboutPage() {
+  const pg = pageData("about");
+  if (!pg) return null;
+  return `${head("About — Yael's Letters", pg.lede || "", "about.html")}
+<body>
+  <div class="page">
+${nav("about")}
+    <main class="inner">
+
+      <p class="kicker reveal" style="--d:.3s">${esc(pg.kicker || "A short introduction")}</p>
+      <h1 class="page-title reveal" style="--d:.45s">${pg.title_html || "About <em>Yael</em>"}</h1>
+      <p class="page-lede reveal" style="--d:.55s">${esc(pg.lede || "")}</p>
+
+      <figure class="plate reveal" style="--d:.65s">
+        <img class="plate__art" src="assets/goat.jpg"
+             alt="A goat seated on a hill, writing a letter with a quill pen — an Oliver Herford illustration"
+             width="275" height="324" />
+        <figcaption class="plate__caption">${esc(pg.caption || "")}</figcaption>
+      </figure>
+
+      <article class="letterbody reveal" style="--d:.8s">
+${pg.bodyHtml}
+        <p class="signature">&mdash; Yael</p>
+      </article>
+${subscribe(esc(pg.subscribe_title || "Get the Letters"), esc(pg.subscribe_note || "One letter at a time, straight to you."))}
+    </main>
+${tail()}`;
+}
+
+function supportPage() {
+  const pg = pageData("support");
+  if (!pg) return null;
+  const ways = (pg.ways || []).map((w) => `        <li>${esc(w)}</li>`).join("\n");
+  const kofiBtn = pg.kofi
+    ? `<a class="seal-btn" href="${esc(pg.kofi)}" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 5h11a3.5 3.5 0 010 7h-1M5 5v7a4 4 0 004 4h3a4 4 0 004-4" stroke="#fbf4df" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M7 2.4v1.4M10 2.4v1.4M13 2.4v1.4" stroke="#fbf4df" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+          Support on Ko-fi</a>`
+    : `<a class="seal-btn is-soon" aria-disabled="true" title="Available soon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 5h11a3.5 3.5 0 010 7h-1M5 5v7a4 4 0 004 4h3a4 4 0 004-4" stroke="#fbf4df" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M7 2.4v1.4M10 2.4v1.4M13 2.4v1.4" stroke="#fbf4df" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+          Support on Ko-fi</a>`;
+  const stripeLink = pg.stripe
+    ? `<a class="penlink" href="${esc(pg.stripe)}" target="_blank" rel="noopener">Give another way</a>`
+    : `<a class="penlink is-soon" aria-disabled="true" title="Available soon">Give another way</a>`;
+  return `${head("Support — Yael's Letters", "Keep the lamp lit — ways to support the letters from the farm.", "support.html")}
+<body>
+  <div class="page">
+${nav("support")}
+    <main class="inner">
+
+      <p class="kicker reveal" style="--d:.3s">${esc(pg.kicker || "Keep the lamp lit")}</p>
+      <h1 class="page-title reveal" style="--d:.45s">${pg.title_html || "Support the <em>Letters</em>"}</h1>
+
+      <article class="letterbody reveal" style="--d:.6s">
+${pg.bodyHtml}
+        <p class="signature">&mdash; Yael</p>
+      </article>
+
+      <div class="actions reveal" style="--d:.8s">
+        ${kofiBtn}
+        ${stripeLink}
+      </div>
+${pg.kofi ? "" : `      <p class="stub-note reveal" style="--d:.85s">Donations connect here soon</p>\n`}
+      <ul class="ways reveal" style="--d:.95s">
+${ways}
+      </ul>
+${subscribe(esc(pg.subscribe_title || "The simplest support is reading"), esc(pg.subscribe_note || "Get each letter as it's written. Free, always."))}
+    </main>
+${tail()}`;
+}
+
 // --- write everything ----------------------------------------------------
 if (!existsSync(SERIES_DIR)) mkdirSync(SERIES_DIR, { recursive: true });
 for (const l of letters) writeFileSync(join(ROOT, `letter-${l.slug}.html`), letterPage(l));
 for (const s of series) writeFileSync(join(ROOT, `series-${s.slug}.html`), seriesPage(s));
 writeFileSync(join(ROOT, "letters.html"), lettersIndex());
 writeFileSync(join(ROOT, "feed.xml"), feed());
+for (const b of books) writeFileSync(join(ROOT, `book-${b.slug}.html`), bookPage(b));
+writeFileSync(join(ROOT, "books.html"), booksIndex());
+const _about = aboutPage(); if (_about) writeFileSync(join(ROOT, "about.html"), _about);
+const _support = supportPage(); if (_support) writeFileSync(join(ROOT, "support.html"), _support);
 
 // --- sitemap ---------------------------------------------------------------
-const staticPages = ["", "letters.html", "books.html", "book-counting-of-the-omer.html",
+const staticPages = ["", "letters.html", "books.html",
   "support.html", "about.html", "privacy.html", "terms.html"];
 const urls = [
   ...staticPages.map((p) => `${SITE}/${p}`),
   ...letters.map((l) => `${SITE}/letter-${l.slug}.html`),
   ...series.map((sr) => `${SITE}/series-${sr.slug}.html`),
+  ...books.map((b) => `${SITE}/book-${b.slug}.html`),
 ];
 writeFileSync(join(ROOT, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
