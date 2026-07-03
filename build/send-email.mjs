@@ -24,7 +24,7 @@ import { marked } from "marked";
 const KEY = process.env.RESEND_API_KEY;
 const AUDIENCE = process.env.RESEND_AUDIENCE_ID;
 const FROM = process.env.RESEND_FROM;
-const SITE = process.env.SITE_URL || "https://tradian.github.io/yaelsletters";
+const SITE = process.env.SITE_URL || "https://yaelsletters.com";
 
 if (!KEY || !AUDIENCE || !FROM) {
   console.log("send-email: Resend env not set — skipping (no email sent).");

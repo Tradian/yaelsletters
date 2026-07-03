@@ -21,7 +21,7 @@ import { marked } from "marked";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const LETTERS_DIR = join(ROOT, "content", "letters");
 const SERIES_DIR = join(ROOT, "content", "series");
-const SITE = "https://tradian.github.io/yaelsletters";
+const SITE = "https://yaelsletters.com";
 
 marked.setOptions({ mangle: false, headerIds: false });
 

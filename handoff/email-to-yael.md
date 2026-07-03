@@ -14,7 +14,7 @@ I made you a little preview so you can see exactly where you'll manage things an
 what a visitor sees. Type a link in and watch a button turn on — nothing there is
 public, it's just for you:
 
-👉 **Open your preview & admin walkthrough:** https://tradian.github.io/yaelsletters/store-preview.html
+👉 **Open your preview & admin walkthrough:** https://yaelsletters.com/store-preview.html
 
 ## ✓ Already done (by me)
 - Website live — the Letters, Books, About, Support, Privacy, Terms

@@ -11,4 +11,4 @@ Disallow: /
 # Disallow: /store-preview.html
 # Disallow: /admin/
 #
-# Sitemap: https://tradian.github.io/yaelsletters/sitemap.xml
+# Sitemap: https://yaelsletters.com/sitemap.xml

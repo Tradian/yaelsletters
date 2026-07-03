@@ -15,7 +15,7 @@ URL and I'll flip the one switch in `admin/config.yml`.
 ## 1. Create a GitHub OAuth app  (2 min)
 GitHub → **Settings → Developer settings → OAuth Apps → New OAuth App**
 - **Application name:** Yael's Letters Editor
-- **Homepage URL:** the live site (e.g. `https://tradian.github.io/yaelsletters`
+- **Homepage URL:** the live site (e.g. `https://yaelsletters.com`
   or your custom domain once chosen)
 - **Authorization callback URL:** `https://<your-worker>.workers.dev/callback`
   (you'll get the exact worker URL in step 2 — you can edit this field after)
