@@ -5,12 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
   <title>Yael's Desk — Letter Editor</title>
-  <link rel="icon" href="../assets/goat.jpg" />
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    /* Yael's Desk — dress the editor in the site's own parchment & ink.
+       Defensive by design: if a rule misses a future Sveltia version, the
+       editor still works; it just wears a little less of the brand. */
+    :root {
+      --paper: #f1e9d2; --ink: #2f4538; --ink-deep: #1b291f;
+      --seal: #b3812f; --seal-deep: #8a6220;
+
+      /* Sveltia UI theme hooks (harmless if unrecognized) */
+      --sui-font-family-default: "EB Garamond", Georgia, serif;
+      --sui-primary-accent-color: var(--seal);
+      --sui-primary-accent-color-dark: var(--seal-deep);
+      --sui-primary-accent-color-light: #c89448;
+      --sui-primary-accent-color-foreground: #fbf4df;
+      --sui-highlight-background-color: rgba(179, 129, 47, 0.16);
+    }
+    html, body { background: var(--paper) !important; }
+    body {
+      margin: 0;
+      font-family: "EB Garamond", Georgia, serif;
+      /* the site's lamplight wash behind the editor */
+      background-image:
+        radial-gradient(85% 60% at 50% -6%, rgba(255, 214, 135, 0.5) 0%, rgba(245, 196, 110, 0) 60%),
+        radial-gradient(130% 85% at 50% 118%, rgba(43, 39, 70, 0.16) 0%, rgba(43, 39, 70, 0) 55%) !important;
+      background-attachment: fixed !important;
+    }
+    /* the sign-in screen: engrave the heading, gild the buttons */
+    h1 { font-family: "Cormorant Garamond", Georgia, serif !important;
+         color: var(--ink-deep) !important; font-weight: 600 !important; }
+    button[class*="primary"], .primary button, button.primary {
+      background: radial-gradient(120% 120% at 30% 25%, var(--seal) 0%, var(--seal-deep) 100%) !important;
+      border-color: var(--seal-deep) !important;
+      color: #fbf4df !important;
+      border-radius: 3px !important;
+      letter-spacing: 0.08em;
+    }
+    button { font-family: "EB Garamond", Georgia, serif !important; }
+    a { color: var(--seal-deep); }
+    /* the logo plate: give the goat its printed border, like the site */
+    img[src*="goat"] {
+      background: #fffdf4; border: 1px solid var(--ink);
+      padding: 8px; box-shadow: 0 14px 30px rgba(27, 41, 31, 0.18);
+    }
+  </style>
 </head>
 <body>
   <!-- Sveltia CMS: a modern, mobile-friendly editor. Reads admin/config.yml.
        Pinned to major 0 to avoid surprise breaking upgrades; lock to an exact
        version once tested (see SECURITY.md). -->
   <script src="https://unpkg.com/@sveltia/cms@0/dist/sveltia-cms.js" type="module"></script>
+  <script>
+    /* Rename the engine: anywhere the UI prints "Sveltia CMS", say
+       "Yael's Desk". Text-only swap — never touches structure or behavior. */
+    (function () {
+      "use strict";
+      var swap = function (root) {
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        var n;
+        while ((n = walker.nextNode())) {
+          if (n.nodeValue && n.nodeValue.indexOf("Sveltia CMS") !== -1) {
+            n.nodeValue = n.nodeValue.replace(/Sveltia CMS/g, "Yael’s Desk");
+          }
+        }
+      };
+      var mo = new MutationObserver(function (muts) {
+        muts.forEach(function (m) {
+          m.addedNodes.forEach(function (node) {
+            if (node.nodeType === 1) swap(node);
+            else if (node.nodeType === 3 && node.nodeValue.indexOf("Sveltia CMS") !== -1) {
+              node.nodeValue = node.nodeValue.replace(/Sveltia CMS/g, "Yael’s Desk");
+            }
+          });
+        });
+      });
+      mo.observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+      document.addEventListener("DOMContentLoaded", function () { swap(document.body); });
+    })();
+  </script>
 </body>
 </html>
