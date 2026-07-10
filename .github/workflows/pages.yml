@@ -1,11 +1,9 @@
 name: Deploy to GitHub Pages
 
-# Publishes the live site. Deploys on push to main (the live branch). The
-# working branch is kept as a temporary deploy source during the go-live
-# transition — remove it once "main" is the repo's default branch.
+# Publishes the live site. Deploys on push to main (the live branch) only.
 on:
   push:
-    branches: ["main", "claude/gifted-keller-lbwTO"]
+    branches: ["main"]
   workflow_dispatch:
 
 # Permissions the deploy-pages action needs
@@ -54,8 +52,15 @@ jobs:
         if: ${{ env.RESEND_API_KEY != '' }}
         run: node build/send-email.mjs
 
-      - name: Clean dev deps
-        run: rm -rf node_modules
+      # The artifact is the public site — strip everything that isn't a page
+      # a reader should reach: dev deps, build tooling, content sources, and
+      # internal docs/handoff notes. SECURITY.md stays (it names the contact
+      # for reporting issues).
+      - name: Keep only the public site
+        run: >
+          rm -rf node_modules .github build workers content handoff
+          README.md SETUP-LOGIN.md STORE.md package.json package-lock.json
+          .gitignore assets/goat-prompt.md assets/covers/README.md
 
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
