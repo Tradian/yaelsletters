@@ -84,7 +84,15 @@ job; most days she only taps **Write a Letter**.
   successor). Yael taps *New Letter*, types, hits *Publish* → it commits the
   markdown → the site rebuilds → the letter appears in its envelope.
 
-### Newsletter — Resend, driven from this site
+### Newsletter — currently Substack; Resend pipeline built but dormant
+
+> **Status (July 2026):** the live subscribe forms hand readers to
+> **Substack** (`assets/subscribe.js` → `SUBSTACK`), which holds the real
+> list — Yael emails a letter by posting it there. Everything below
+> describes the self-hosted **Resend** path, which is fully built but
+> switched off (no repo secrets set, `email_send` field parked in
+> `admin/config.yml`). Revisit once the list is big enough to be worth
+> owning outright; export the Substack list monthly either way.
 Everything Yael pushes is a letter, so one action covers site + email:
 - **Sending:** the deploy runs `build/send-email.mjs` after the build. Any letter
   with **“Send to subscribers”** ticked is emailed once via a Resend **Broadcast**.
