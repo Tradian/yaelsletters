@@ -13,6 +13,64 @@
   <meta name="theme-color" content="#f1e9d2" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* --- the desk tour: a gold ring and a little note, one card at a time --- */
+    .tour-ring {
+      display: none; position: absolute; z-index: 80; pointer-events: none;
+      border: 2px solid var(--seal); border-radius: 16px;
+      box-shadow: 0 0 0 200vmax rgba(27, 41, 31, 0.45);
+      transition: top .25s ease, left .25s ease, width .25s ease, height .25s ease;
+    }
+    @media (prefers-reduced-motion: reduce) { .tour-ring { transition: none; } }
+    .tour-bubble {
+      display: none; position: fixed; z-index: 90;
+      bottom: max(1rem, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%);
+      width: min(23rem, calc(100vw - 2rem));
+      background: var(--paper); border: 1px solid var(--ink);
+      border-radius: 12px; padding: 1.1rem 1.2rem 0.9rem;
+      box-shadow: 0 18px 44px rgba(27, 41, 31, 0.35);
+    }
+    .tour-close {
+      position: absolute; top: 0.4rem; right: 0.55rem; border: 0; background: none;
+      font-size: 1.5rem; line-height: 1; color: var(--ink-soft); cursor: pointer; padding: 0.2rem;
+    }
+    .tour-close:hover, .tour-close:focus-visible { color: var(--ink-deep); }
+    .tour-kicker {
+      font-family: var(--font-read); text-transform: uppercase; letter-spacing: 0.22em;
+      font-size: 0.62rem; color: var(--seal-deep); margin: 0 0 0.25rem;
+    }
+    .tour-title { font-family: var(--font-display); font-size: 1.25rem; color: var(--ink-deep); margin: 0 0 0.4rem; }
+    .tour-text { font-family: var(--font-read); font-size: 0.92rem; line-height: 1.55; color: var(--ink); margin: 0 0 0.8rem; }
+    .tour-nav { display: flex; gap: 0.6rem; justify-content: flex-end; }
+    .tour-btn {
+      font-family: var(--font-read); font-size: 0.9rem; cursor: pointer;
+      border: 1px solid var(--seal-deep); border-radius: 999px; padding: 0.4rem 1.1rem;
+      background: radial-gradient(120% 120% at 30% 25%, var(--seal) 0%, var(--seal-deep) 100%);
+      color: #fbf4df;
+    }
+    .tour-btn--ghost { background: none; color: var(--ink); border-color: var(--ink-soft); }
+    .tour-btn:focus-visible { outline: 2px solid var(--seal); outline-offset: 2px; }
+    .tour-count { font-family: var(--font-read); font-size: 0.72rem; color: var(--ink-soft); margin: 0.55rem 0 0; }
+    .tour-never {
+      display: block; font-family: var(--font-read); font-size: 0.8rem; color: var(--ink-soft);
+      margin: 0.35rem 0 0; cursor: pointer;
+    }
+    .tour-never input { accent-color: var(--seal-deep); margin-right: 0.3rem; }
+    .tour-again { font-size: 0.85rem; }
+
+    /* --- the wish list: a note straight to Ian --- */
+    .desk-card--wish { cursor: default; }
+    .wish-form { display: grid; gap: 0.6rem; margin-top: 0.7rem; }
+    .wish-form textarea {
+      width: 100%; box-sizing: border-box; resize: vertical; min-height: 4.5rem;
+      font-family: var(--font-read); font-size: 0.95rem; color: var(--ink-deep);
+      background: #fffdf4; border: 1px solid rgba(47, 69, 56, 0.35); border-radius: 8px;
+      padding: 0.55rem 0.7rem;
+    }
+    .wish-form textarea:focus { outline: 2px solid var(--seal); outline-offset: 1px; }
+    .wish-form .seal-btn { justify-self: start; }
+    .wish-note { font-family: var(--font-read); font-style: italic; font-size: 0.82rem; color: var(--seal-deep); margin: 0.5rem 0 0; }
+  </style>
 </head>
 <body>
   <div class="page">
@@ -32,6 +90,9 @@
         Everything in one place. Tap a card. Most days you only need the
         first one.
       </p>
+      <p class="tour-again reveal" style="--d:.6s">
+        <a class="penlink" id="tour-again" href="#">Show me around again</a>
+      </p>
 
       <div class="desk reveal" style="--d:.7s">
 
@@ -44,14 +105,14 @@
           <p class="desk-card__sub">Write a new letter (standalone or part of a series), or start a series. Hit Publish and the site updates itself &mdash; then post it to Substack to reach the email list.</p>
         </a>
 
-        <a class="desk-card" href="#" data-link="comments">
-          <span class="desk-card__ext">opens dashboard</span>
+        <span class="desk-card" data-link="comments">
+          <span class="desk-card__ext">coming soon</span>
           <svg class="desk-card__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M4 5h16v11H9l-5 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
           </svg>
           <h2 class="desk-card__title">Comments</h2>
-          <p class="desk-card__sub">Approve or remove replies on the letters.</p>
-        </a>
+          <p class="desk-card__sub">Replies from readers &mdash; moderated, and coming soon.</p>
+        </span>
 
         <a class="desk-card" href="https://yaelsletters.substack.com/publish/subscribers" target="_blank" rel="noopener" data-link="subscribers">
           <span class="desk-card__ext">opens Substack</span>
@@ -63,8 +124,8 @@
           <p class="desk-card__sub">See who&rsquo;s receiving the letters.</p>
         </a>
 
-        <a class="desk-card" href="#" data-link="donations">
-          <span class="desk-card__ext">opens dashboard</span>
+        <a class="desk-card" href="https://ko-fi.com/manage" target="_blank" rel="noopener" data-link="donations">
+          <span class="desk-card__ext">opens Ko-fi</span>
           <svg class="desk-card__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/>
             <path d="M12 8v8M9.5 9.5h3.2a1.8 1.8 0 010 3.6H10m-.5 0h3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
@@ -73,18 +134,28 @@
           <p class="desk-card__sub">View support given through the page.</p>
         </a>
 
-        <a class="desk-card" href="#" data-link="books">
-          <span class="desk-card__ext">opens dashboard</span>
+        <a class="desk-card" href="admin/#/collections/books" data-link="books">
+          <span class="desk-card__ext">opens your editor</span>
           <svg class="desk-card__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M5 4h11a2 2 0 012 2v14H7a2 2 0 01-2-2V4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
             <path d="M9 4v16" stroke="currentColor" stroke-width="1.5"/>
           </svg>
           <h2 class="desk-card__title">Books</h2>
-          <p class="desk-card__sub">Add or update a book in the store.</p>
+          <p class="desk-card__sub">Add or update a book on the shelf &mdash; blurb, Amazon link, free PDF.</p>
+        </a>
+
+        <a class="desk-card" href="admin/#/collections/pages" data-link="pages">
+          <span class="desk-card__ext">opens your editor</span>
+          <svg class="desk-card__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 3h9l4 4v14H6V3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M14 3v5h5M9 12h7M9 15.5h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+          <h2 class="desk-card__title">Pages</h2>
+          <p class="desk-card__sub">The words on About and Support &mdash; your introduction, your note to readers, the Ko-fi link.</p>
         </a>
 
         <a class="desk-card" href="admin/#/collections/settings/entries/site" data-link="settings">
-          <span class="desk-card__ext">opens dashboard</span>
+          <span class="desk-card__ext">opens your editor</span>
           <svg class="desk-card__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M5 9v6h3l5 4V5L8 9H5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
             <path d="M16 9.5a3.5 3.5 0 010 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
@@ -93,13 +164,28 @@
           <p class="desk-card__sub">Turn the soft goat sound on entry on or off.</p>
         </a>
 
+        <div class="desk-card desk-card--wish" id="wishlist">
+          <svg class="desk-card__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 4c1.2-2 5-2 5 1 0 2.4-3.2 4.6-5 6-1.8-1.4-5-3.6-5-6 0-3 3.8-3 5-1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M5 14h14v6H5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M5 15l7 3.5L19 15" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+          <h2 class="desk-card__title">Your wish list</h2>
+          <p class="desk-card__sub">Need something changed, added, or explained? Write it here &mdash; it goes straight to Ian, and no request is too small.</p>
+          <form class="wish-form" id="wish-form">
+            <label class="visually-hidden" for="wish-text">What do you need?</label>
+            <textarea id="wish-text" placeholder="Dear Ian, could we&hellip;"></textarea>
+            <button class="seal-btn" type="submit">Send to Ian</button>
+          </form>
+          <p class="wish-note" id="wish-note" hidden>Your mail app is opening with the note already written &mdash; just press send.</p>
+        </div>
+
       </div>
 
       <p class="desk-note reveal" style="--d:.9s">
-        The four dashboards open in their own apps (you&rsquo;ll be signed in
-        there). Their links get added once we choose each service &mdash;
-        until then they sit quietly. Bookmark this page on your phone&rsquo;s
-        home screen for one-tap access.
+        Subscribers opens Substack and Donations opens Ko-fi &mdash; you&rsquo;ll
+        be signed in there in their own apps. Bookmark this page on your
+        phone&rsquo;s home screen for one-tap access.
       </p>
 
     </main>
@@ -114,5 +200,7 @@
 
   <canvas id="paper-layer" aria-hidden="true"></canvas>
   <script src="assets/paper.js" defer></script>
+  <script src="assets/wishlist.js" defer></script>
+  <script src="assets/desk-tour.js" defer></script>
 </body>
 </html>
